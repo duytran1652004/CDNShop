@@ -10,8 +10,8 @@ import MousePad from "../pages/admin/mouse-pad";
 import Mice from "../pages/admin/mice";
 import Laptop from "../pages/admin/laptop";
 import Headphone from "../pages/admin/headphone";
-import Category from "../pages/admin/category";
 import Brand from "../pages/admin/brand";
+import Category from "../pages/admin/Category";
 
 const AppRoutes = () => {
   return (

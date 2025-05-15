@@ -1,13 +1,13 @@
 import React from "react";
 import { Table } from "antd";
 
-const TableDataGrid = ({ columns, dataSource }) => {
+const TableDataGrid = ({ columns, dataSource, rowKey }) => {
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
-      rowKey="id"
-      pagination={{ pageSize: 5 }}
+      rowKey={rowKey}
+      pagination={{ pageSize: 10 }}
       bordered
     />
   );

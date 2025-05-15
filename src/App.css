@@ -31,13 +31,13 @@ a {
 
 /* AdminLayout.css */
 .admin-sider {
-    background-color: #1a2526; /* Màu nền đen đậm giống trong hình */
+    background-color: #1a2526;
     color: #ffffff;
     position: fixed;
     height: 100vh;
     overflow-y: auto;
-    width: 200px; /* Đảm bảo chiều rộng cố định */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Thêm bóng nhẹ để sidebar nổi bật */
+    width: 300px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   }
 
   .admin-title {
@@ -47,8 +47,8 @@ a {
     font-size: 20px;
     font-weight: 700;
     letter-spacing: 1px;
-    background-color: #1a2526; /* Đồng bộ với màu nền sidebar */
-    border-bottom: 1px solid #2d3b3c; /* Đường viền nhẹ hơn */
+    background-color: #1a2526;
+    border-bottom: 1px solid #2d3b3c;
   }
 
   .admin-menu {
@@ -57,27 +57,26 @@ a {
   }
 
   .admin-menu .ant-menu-item {
-    color: #ffffff !important; /* Chữ trắng hoàn toàn */
+    color: #ffffff !important;
     font-size: 16px;
-    padding: 10px 20px !important; /* Tăng padding cho dễ nhìn */
-    margin: 0 !important; /* Loại bỏ khoảng cách thừa */
-    transition: all 0.3s ease; /* Hiệu ứng mượt mà khi hover */
+    padding: 10px 20px !important;
+    margin: 0 !important;
+    transition: all 0.3s ease;
   }
 
   .admin-menu .ant-menu-item:hover {
-    background-color: #3a5a5b !important; /* Màu xanh đậm nhẹ khi hover */
+    background-color: #3a5a5b !important;
     color: #ffffff !important;
   }
 
   .admin-menu .ant-menu-item-selected {
-    background-color: #b3e5fc !important; /* Màu xanh nhạt giống trong hình khi selected */
-    color: #000000 !important; /* Chữ đen để tương phản với nền xanh nhạt */
-    font-weight: 600; /* Chữ đậm hơn khi được chọn */
+    background-color: #b3e5fc !important;
+    color: #000000 !important;
+    font-weight: 600;
   }
 
   .admin-content {
-    margin-left: 200px;
-    background-color: #f5f5f5; /* Màu nền sáng hơn một chút cho nội dung */
-    padding: 30px;
+    margin-left: 300px;
+    background-color: #f5f5f5;
     min-height: 100vh;
   }
