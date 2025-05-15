@@ -1,0 +1,60 @@
+.main-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #E30019;
+    height: 74px;
+}
+
+
+.row-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.header-left,
+.header-right {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+}
+
+.logo {
+    height: 150%;
+}
+
+.header-action-item-button {
+    height: 50px;
+}
+
+.button-menu {
+    background: #BE1529;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: none;
+}
+
+.header-action-item-button{
+    height: 50px;
+}
+
+.input-search:hover,
+.input-search:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+:where(.css-dev-only-do-not-override-1m2bkf9).ant-input-outlined {
+    border-style: none;
+}
+
+:where(.css-dev-only-do-not-override-1m2bkf9).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-active {
+    background-color: transparent;
+}

@@ -1,0 +1,43 @@
+.ant-modal {
+    border-radius: 8px !important;
+  }
+
+  .ant-modal-header {
+    border-bottom: none !important;
+  }
+
+  .ant-modal-title {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+  }
+
+
+
+  .ant-form-item-label > label {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #000 !important;
+  }
+
+  .input {
+    border: 1px solid #d9d9d9 !important;
+    border-radius: 4px !important;
+    padding: 10px 16px !important;
+  }
+
+  .ant-input:focus,
+  .ant-input-password:focus {
+    border-color: #40a9ff !important;
+    box-shadow: none !important;
+  }
+
+  .ant-btn-primary {
+    background-color: #ff4d4f !important;
+    border-color: #ff4d4f !important;
+    font-weight: 500 !important;
+  }
+
+  .ant-modal-footer {
+    border-top: none !important;
+  }

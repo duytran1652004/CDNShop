@@ -1,0 +1,83 @@
+.container-fluid {
+    max-width: 1220px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color:#111111 ;
+}
+
+:where(.css-dev-only-do-not-override-1m2bkf9).ant-form-item {
+    margin-bottom: 5px;
+}
+
+:where(.css-dev-only-do-not-override-1m2bkf9).ant-dropdown .ant-dropdown-menu {
+    padding: 16px;
+}
+
+/* AdminLayout.css */
+.admin-sider {
+    background-color: #1a2526; /* Màu nền đen đậm giống trong hình */
+    color: #ffffff;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    width: 200px; /* Đảm bảo chiều rộng cố định */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Thêm bóng nhẹ để sidebar nổi bật */
+  }
+
+  .admin-title {
+    color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background-color: #1a2526; /* Đồng bộ với màu nền sidebar */
+    border-bottom: 1px solid #2d3b3c; /* Đường viền nhẹ hơn */
+  }
+
+  .admin-menu {
+    background-color: #1a2526 !important;
+    border-right: none !important;
+  }
+
+  .admin-menu .ant-menu-item {
+    color: #ffffff !important; /* Chữ trắng hoàn toàn */
+    font-size: 16px;
+    padding: 10px 20px !important; /* Tăng padding cho dễ nhìn */
+    margin: 0 !important; /* Loại bỏ khoảng cách thừa */
+    transition: all 0.3s ease; /* Hiệu ứng mượt mà khi hover */
+  }
+
+  .admin-menu .ant-menu-item:hover {
+    background-color: #3a5a5b !important; /* Màu xanh đậm nhẹ khi hover */
+    color: #ffffff !important;
+  }
+
+  .admin-menu .ant-menu-item-selected {
+    background-color: #b3e5fc !important; /* Màu xanh nhạt giống trong hình khi selected */
+    color: #000000 !important; /* Chữ đen để tương phản với nền xanh nhạt */
+    font-weight: 600; /* Chữ đậm hơn khi được chọn */
+  }
+
+  .admin-content {
+    margin-left: 200px;
+    background-color: #f5f5f5; /* Màu nền sáng hơn một chút cho nội dung */
+    padding: 30px;
+    min-height: 100vh;
+  }

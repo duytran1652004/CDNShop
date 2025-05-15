@@ -1,0 +1,36 @@
+.list-submenu {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.item-submenu {
+    padding: 10px 32px;
+    position: relative;
+}
+
+.link-subheader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.link-subheader:hover {
+    color: #E30019;
+}
+
+.list-submenu .item-submenu:not(:last-child) .link-subheader:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    background: #CFCFCF;
+    height: 62%;
+    width: 1px;
+}
