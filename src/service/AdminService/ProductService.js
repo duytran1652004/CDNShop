@@ -1,4 +1,3 @@
-// service/AdminService/ProductService.js
 import { javaApi } from "../../utils/axiosClient";
 
 class ProductService {
@@ -8,18 +7,21 @@ class ProductService {
     }
 
     async getAllProducts({ page = 0, name = "", brandId = null, categoryId = null } = {}) {
-        // Tạo query string với format page=0&filter=key:value
         const queryParts = [];
-        queryParts.push(`page=${page}`); // page sử dụng dấu =
+        queryParts.push(`page=${page}`);
 
-        // Tạo các filter với định dạng filter=key:value
-        if (name) queryParts.push(`filter=name:${name}`);
+        if (name) queryParts.push(`filter=name ~~ '${name}'`);
         if (brandId !== null) queryParts.push(`filter=brand:${brandId}`);
         if (categoryId !== null) queryParts.push(`filter=category:${categoryId}`);
 
         const queryString = queryParts.join("&");
-        const response = await javaApi.get(`/products?${queryString}`);
-        return response.data;
+        try {
+            const response = await javaApi.get(`/products?${queryString}`);
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            throw error;
+        }
     }
 
     async getAllBrands() {
@@ -40,6 +42,17 @@ class ProductService {
     async deleteProduct(id) {
         const response = await javaApi.delete(`/products/${id}`);
         return response.data;
+    }
+
+    // Thêm phương thức mới để lấy chi tiết sản phẩm
+    async getProductDetail(id) {
+        try {
+            const response = await javaApi.get(`/products/${id}/detail`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error fetching product detail for ID ${id}:`, error);
+            throw error;
+        }
     }
 }
 

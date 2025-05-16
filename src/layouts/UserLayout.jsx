@@ -8,7 +8,7 @@ const UserLayout = () => {
     <div >
         <MainHeader />
         <SubHeader />
-        <main style={{backgroundColor: 'rgb(178 178 178 / 19%)', paddingBottom: '40px'}}>
+        <main style={{backgroundColor: 'rgb(178 178 178 / 19%)', paddingBottom: '40px', paddingTop: '40px'}}>
             <Outlet />
         </main>
         <MainFooter />

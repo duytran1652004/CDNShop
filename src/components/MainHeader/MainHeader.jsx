@@ -6,13 +6,20 @@ import { MenuOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined, Phone
 import { LogoutIcon, HiIcon, DonHangIcon, HistoryViewIcon } from "../../assets/iconSVG/constants";
 import "./MainHeader.css";
 import AuthModal from "../AuthModal/AuthModal";
+import AuthContext from "../../context/AuthContext";
+import { useContext } from "react";
 
-const isLoggedIn = false;
-const userName = "Nguyễn Chính";
+
 
 const MainHeader = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalMode, setModalMode] = useState("login");
+    const { isLoginedIn, user, logout } = useContext(AuthContext);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalMode, setModalMode] = useState("login");
+
+    const handleLogout = () => {
+        console.log("logout");
+        logout();
+    };
 
   const handleOpenModal = (mode) => {
     setModalMode(mode);
@@ -55,7 +62,7 @@ const MainHeader = () => {
         <Menu.Item key="2">
           <Button
             block
-            onClick={() => handleOpenModal("register")} // Mở modal với form đăng ký
+            onClick={() => handleOpenModal("register")}
           >
             ĐĂNG KÝ
           </Button>
@@ -70,7 +77,7 @@ const MainHeader = () => {
         <a style={{ display: "flex" }} href="">
           <span><HiIcon /></span>
           <span style={{ fontSize: 14, fontWeight: 500, marginLeft: 10 }}>
-            Xin chào, {userName}
+          Xin chào, {user?.name || "User"}
           </span>
         </a>
       </Menu.Item>
@@ -90,13 +97,13 @@ const MainHeader = () => {
           </span>
         </a>
       </Menu.Item>
-      <Menu.Item key="4">
-        <a style={{ display: "flex" }} href="">
+      <Menu.Item key="4" onClick={handleLogout}>
+        <span style={{ display: "flex" }}>
           <span><LogoutIcon /></span>
           <span style={{ fontSize: 14, fontWeight: 500, marginLeft: 10 }}>
             Đăng xuất
           </span>
-        </a>
+        </span>
       </Menu.Item>
     </Menu>
   );
@@ -151,7 +158,7 @@ const MainHeader = () => {
             </div>
             <div className="header-action-item button-menu">
               <Dropdown
-                overlay={isLoggedIn ? loggedInMenu : loggedOutMenu}
+                overlay={isLoginedIn ? loggedInMenu : loggedOutMenu}
                 trigger={["hover"]}
                 arrow
               >
@@ -161,7 +168,7 @@ const MainHeader = () => {
                   icon={<UserOutlined style={{ color: "#fff" }} />}
                   style={{ color: "#fff" }}
                 >
-                  {isLoggedIn ? userName : "Đăng nhập"}
+                  {isLoginedIn ? user.name : "Đăng nhập"}
                 </Button>
               </Dropdown>
             </div>

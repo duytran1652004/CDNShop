@@ -28,7 +28,7 @@ const Footer = () => {
           </Col>
 
           {/* Customer Support */}
-          <Col xs={24} sm={12} md={6} lg={4}>
+          <Col style={{color: '#fff'}} xs={24} sm={12} md={6} lg={4}>
             <h4>Hỗ Trợ Khách Hàng</h4>
             <p>
               <a href="#">Chính sách bảo hành</a>

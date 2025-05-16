@@ -6,14 +6,19 @@
 
 .product-card {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .product-card-content {
-    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .product-name {
-    font-size: 14px;
+    font-size: 18px;
     color: #333333;
     line-height: 20px;
     height: 40px;
@@ -58,13 +63,6 @@
     margin-bottom: 6px;
 }
 
-.product-name ,
-.technical,
-.product-price,
-.product-rating {
-    margin: 0 0 10px;
-}
-
 .technical {
     background: #ECECEC;
     border-radius: 4px;
@@ -79,9 +77,8 @@
 .technical--line {
     display: inline-flex;
     align-items: center;
-    padding-bottom: 2px;
-    margin-right: 10px;
     font-size: 13px;
+    margin: 5px;
 }
 
 .technical-label {

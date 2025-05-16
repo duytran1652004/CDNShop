@@ -1,6 +1,5 @@
 .main-footer {
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
-    color: #000; /* Black text */
+    background-color: #010101; /* Semi-transparent white background */
     padding: 40px 0;
   }
 
@@ -18,11 +17,11 @@
   .main-footer p {
     margin: 8px 0;
     font-size: 14px;
-    color: #333; /* Dark gray for better readability on light background */
+    color: #fff; /* Dark gray for better readability on light background */
   }
 
   .main-footer a {
-    color: #333; /* Dark gray for links */
+    color: #fff; /* Dark gray for links */
     text-decoration: none;
   }
 

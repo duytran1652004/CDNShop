@@ -20,7 +20,7 @@ const AdminLayout = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider width={300} className="admin-sider">
+      <Sider width={250} className="admin-sider">
         <div className="admin-title">Admin Panel</div>
         <Menu
           mode="inline"

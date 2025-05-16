@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Modal, Input, Button, Form, message } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../../service/AuthService";
+import AuthContext from "../../context/AuthContext";
 import "./AuthModal.css";
 
 const AuthModal = ({ visible, onCancel, initialMode = "login", onLoginSuccess }) => {
   const [isLogin, setIsLogin] = useState(initialMode === "login");
   const [form] = Form.useForm();
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
+  const { login, isLoginedIn } = useContext(AuthContext);
+
 
   useEffect(() => {
     if (visible) {
@@ -20,28 +22,10 @@ const AuthModal = ({ visible, onCancel, initialMode = "login", onLoginSuccess })
     }
   }, [visible, initialMode, form]);
 
-  const loginMutation = useMutation({
-    mutationFn: (data) => AuthService.login(data),
-    onSuccess: (data) => {
-      const accessToken = data.acces_token;
-      localStorage.setItem("access-token", accessToken);
-      messageApi.success("Đăng nhập thành công!");
-      form.resetFields();
-      onCancel();
-      if (onLoginSuccess) {
-        onLoginSuccess();
-      }
-    },
-    onError: (error) => {
-      messageApi.error("Đăng nhập thất bại. Vui lòng thử lại!");
-      console.error("Login error:", error);
-    },
-  });
-
   const registerMutation = useMutation({
     mutationFn: (data) => AuthService.register(data),
     onSuccess: (data) => {
-      messageApi.success("Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt tài khoản.");
+      messageApi.success("Đăng ký thành công!");
       form.resetFields();
       setIsLogin(true);
     },
@@ -59,23 +43,26 @@ const AuthModal = ({ visible, onCancel, initialMode = "login", onLoginSuccess })
   const onFinish = (values) => {
     if (isLogin) {
       const loginData = {
-        username: values.email,
+        username: values.username,
         password: values.password,
         website: "user",
       };
-      loginMutation.mutate(loginData);
+      login(loginData);
+      onCancel();
     } else {
       const registerData = {
-        username: values.email,
+        username: values.username,
         name: values.name,
         email: values.email,
         phone: values.phone || "",
         address: values.address || "",
         password: values.password,
+        role: "user",
       };
       registerMutation.mutate(registerData);
     }
   };
+
 
   return (
     <>
@@ -92,14 +79,13 @@ const AuthModal = ({ visible, onCancel, initialMode = "login", onLoginSuccess })
           {isLogin ? (
             <>
               <Form.Item
-                name="email"
-                label="Email"
+                name="username"
+                label="Tên tài khoản"
                 rules={[
-                  { required: true, message: "Vui lòng nhập email!" },
-                  { type: "email", message: "Email không hợp lệ!" },
+                  { required: true, message: "Vui lòng nhập tên tài khoản!" },
                 ]}
               >
-                <Input className="input" placeholder="Đăng nhập bằng email" />
+                <Input className="input" placeholder="Đăng nhập bằng tên tài khoản" />
               </Form.Item>
               <Form.Item
                 name="password"
@@ -181,7 +167,6 @@ const AuthModal = ({ visible, onCancel, initialMode = "login", onLoginSuccess })
               htmlType="submit"
               block
               style={{ backgroundColor: "#ff4d4f", borderColor: "#ff4d4f", height: 40, marginTop: 10 }}
-              loading={isLogin ? loginMutation.isLoading : registerMutation.isLoading}
             >
               {isLogin ? "ĐĂNG NHẬP" : "TẠO TÀI KHOẢN"}
             </Button>
