@@ -1,14 +1,7 @@
 .section-content {
     width: 100%;
     box-shadow: inset 1px 0px 0px #EDEDED, inset -1px 0px 0px #EDEDED, inset 0px 1px 0px #EDEDED, inset 0px -1px 0px #EDEDED;
-    border-radius: 4px;
-}
-
-.product-card {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    border-radius: 9px;
 }
 
 .product-card-content {
@@ -17,8 +10,23 @@
     gap: 10px;
 }
 
+.product-card {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+
 .product-name {
-    font-size: 18px;
+    font-size: 15px;
     color: #333333;
     line-height: 20px;
     height: 40px;
@@ -26,6 +34,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     display: -webkit-box;
+    font-weight: 600;
 }
 
 .compare-price {
@@ -77,10 +86,57 @@
 .technical--line {
     display: inline-flex;
     align-items: center;
-    font-size: 13px;
+    font-size: 11px;
     margin: 5px;
 }
 
 .technical-label {
     margin-left: 4px;
 }
+
+
+
+/* Thêm mới */
+
+.section-content.detail-card {
+    flex: 0 0 auto;
+    padding: 8px;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+
+  .detail-card .product-card {
+    padding: 0;
+    gap: 8px;
+    flex-direction: row;
+  }
+
+  .detail-card .product-card-image img {
+    border-radius: 8px;
+    width: 80px;
+    height: auto;
+  }
+
+  .detail-card .product-card:hover {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+
+  .detail-card .product-card-content {
+    padding: 0 4px;
+    width: calc(100% - 80px);
+  }
+
+  .detail-card .product-name {
+    font-size: 14px;
+    line-height: 18px;
+    height: 36px;
+  }
+
+  .detail-card .default-price .highlight {
+    font-size: 15px;
+    line-height: 18px;
+  }
+

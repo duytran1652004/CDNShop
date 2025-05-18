@@ -50,10 +50,10 @@ button:hover {
     box-shadow: none;
     outline: none;
 }
-
+/*
 :where(.css-dev-only-do-not-override-1m2bkf9).ant-input-outlined {
     border-style: none;
-}
+} */
 
 :where(.css-dev-only-do-not-override-1m2bkf9).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item-active {
     background-color: transparent;

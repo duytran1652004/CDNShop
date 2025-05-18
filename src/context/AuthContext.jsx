@@ -4,16 +4,19 @@ import { jwtDecode } from "jwt-decode";
 import AuthService from "../service/AuthService";
 import { message } from "antd";
 
+
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [user_id, setUserId] = useState(null);
   const [isLoginedIn, setIsLoginedIn] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
   const verifyToken = (token) => {
     try {
       const decoded = jwtDecode(token);
+      setUserId(Number(decoded.sub));
       const currentTime = Math.floor(Date.now() / 1000);
       return decoded.exp && decoded.exp > currentTime;
     } catch {
@@ -36,16 +39,24 @@ export const AuthProvider = ({ children }) => {
     mutationFn: (data) => AuthService.login(data),
     onSuccess: (res) => {
         const token = res.acces_token;
+        console.log(token);
+
         const name = res.name || "";
         const decoded = jwtDecode(token);
 
         setSession(token);
         localStorage.setItem("name", name);
-        setUser({ ...decoded, name });
+        setUser({ ...decoded, name, sub: Number(decoded.sub) });
         setIsLoginedIn(true);
         setIsInitialized(true);
 
+        console.log(decoded.authorities);
+
+
         if (decoded.authorities && decoded.authorities.includes("ROLE_ADMIN")) {
+
+
+          console.log("Đăng nhập thành công");
           window.location.href = "/admin/dashboard";
         } else {
           message.error("Tài khoản này không có quyền truy cập trang quản trị.");
@@ -85,6 +96,7 @@ export const AuthProvider = ({ children }) => {
         isLoginedIn,
         login: loginMutation.mutate,
         logout,
+        user_id
       }}
     >
       {children}

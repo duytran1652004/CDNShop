@@ -2,7 +2,9 @@ import { Image } from 'antd';
 import './ProductCard.css';
 import { CpuIcon, RamIcon, StorageIcon, ScreenIcon } from '../../assets/iconSVG/constants';
 import { useNavigate } from 'react-router-dom';
-
+import ProductViewHistoryService from '../../service/UserService/ProductViewHistoryService';
+import AuthContext from "../../context/AuthContext";
+import { useContext } from "react";
 
 const formatVND = (value) => {
   if (!value) return '';
@@ -20,32 +22,35 @@ const ProductCard = ({
     isDetail = false
   }) => {
     const navigate = useNavigate();
+    const { user_id } = useContext(AuthContext);
 
     const iconTech = [
       {
         icon: <CpuIcon />,
-        label: config_product.cpu || "N/A",
+        label: config_product?.cpu || "N/A",
       },
       {
         icon: <RamIcon />,
-        label: config_product.ram || "N/A",
+        label: config_product?.ram || "N/A",
       },
       {
         icon: <StorageIcon />,
-        label: config_product.storage || "N/A",
+        label: config_product?.storage || "N/A",
       },
       {
         icon: <ScreenIcon />,
-        label: config_product.screen || "N/A",
+        label: config_product?.screen || "N/A",
       },
     ];
     return (
-      <div className="section-content" onClick={() => navigate(`/product/${product_id}`)}>
+      <div className={`section-content ${!isDetail && "detail-card"}`}  onClick={async () => {
+        await ProductViewHistoryService.recordView(product_id, user_id);
+      }}>
         <div className='product-card'>
           <div className='product-card-image'>
-            <Image src={url_img} alt={name} />
+            <Image style={{width: "194", height: "129"}} src={url_img} alt={name} />
           </div>
-          <div className='product-card-content'>
+          <div className='product-card-content'  onClick={() => navigate(`/product/${product_id}`)}>
             <div className="product-name">{name}</div>
             {isDetail && (
               <div className="technical">
@@ -57,17 +62,12 @@ const ProductCard = ({
                 ))}
               </div>
             )}
+
             <div className="product-price">
               <div className='default-price'>
                 <span className='highlight'>{formatVND(price)}</span>
               </div>
             </div>
-            {isDetail && (
-              <div className="product-rating">
-                <span className="icon">★ ★</span>
-                <span className="count">(4 Đánh giá)</span>
-              </div>
-            )}
           </div>
         </div>
       </div>

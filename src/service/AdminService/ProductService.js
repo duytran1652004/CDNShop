@@ -7,21 +7,20 @@ class ProductService {
     }
 
     async getAllProducts({ page = 0, name = "", brandId = null, categoryId = null } = {}) {
-        const queryParts = [];
-        queryParts.push(`page=${page}`);
+        const filters = [];
 
-        if (name) queryParts.push(`filter=name ~~ '${name}'`);
-        if (brandId !== null) queryParts.push(`filter=brand:${brandId}`);
-        if (categoryId !== null) queryParts.push(`filter=category:${categoryId}`);
+        if (name) filters.push(`name ~~ '${name}'`);
+        if (brandId !== null) filters.push(`brand : ${brandId}`);
+        if (categoryId !== null) filters.push(`category : ${categoryId}`);
 
-        const queryString = queryParts.join("&");
-        try {
-            const response = await javaApi.get(`/products?${queryString}`);
-            return response.data;
-        } catch (error) {
-            console.error("Error fetching products:", error);
-            throw error;
+        const queryString = [`page=${page}`];
+        if (filters.length > 0) {
+            filters.forEach((f) => queryString.push(`filter=${encodeURIComponent(f)}`));
         }
+
+        const finalQuery = queryString.join("&");
+        const response = await javaApi.get(`/products?${finalQuery}`);
+        return response.data;
     }
 
     async getAllBrands() {
@@ -44,7 +43,6 @@ class ProductService {
         return response.data;
     }
 
-    // Thêm phương thức mới để lấy chi tiết sản phẩm
     async getProductDetail(id) {
         try {
             const response = await javaApi.get(`/products/${id}/detail`);

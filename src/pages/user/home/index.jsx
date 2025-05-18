@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import SectionSlider from './SectionSlider/SectionSlider';
 import SectionContent from './SectionContent/SectionContent';
 import ProductService from '../../../service/UserService/ProductService';
-
+import RecentViewSection from './SectionContent/RecentViewSection';
 const DUMMY_CATEGORIES = ['Laptop'];
 
 const getRandomCategory = () =>
@@ -29,7 +29,12 @@ const Home = () => {
   return (
     <div className="container-fluid">
       <SectionSlider />
-      <SectionContent title={`Sản phẩm: ${category}`} products={products} />
+      <RecentViewSection />
+      <SectionContent title={`Sản phẩm: ${category}`} products={products} category={category} />
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+            <div style={{width: '50%'}}><img style={{width: '100%'}} src="https://file.hstatic.net/200000722513/file/thang_04_layout_web__1015x325_copy.png" alt="" /></div>
+            <div style={{width: '50%'}}><img style={{width: '100%'}} src="https://file.hstatic.net/200000722513/file/thang_04_layout_web__1015x325.png" alt="" /></div>
+      </div>
     </div>
   );
 };

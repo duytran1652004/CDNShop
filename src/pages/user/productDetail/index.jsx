@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import ProductService from '../../../service/UserService/ProductService';
 import { Card } from 'antd';
 import "./ProductDetail.css";
+import AuthContext from '../../../context/AuthContext';
+import CartService from '../../../service/UserService/CartService';
 
 const formatVND = (value) => {
   if (!value) return '';
@@ -14,6 +16,7 @@ const formatVND = (value) => {
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { user_id } = useContext(AuthContext);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const { data: product, isLoading, isError } = useQuery({
@@ -22,11 +25,20 @@ const ProductDetail = () => {
     enabled: !!id,
   });
 
-  if (isLoading) return <div>Đang tải...</div>;
-  if (isError || !product) return <div>Lỗi hoặc không tìm thấy sản phẩm</div>;
+  if (isLoading) return <div className='container-fluid'>Đang tải...</div>;
+  if (isError || !product) return <div className='container-fluid'>Lỗi hoặc không tìm thấy sản phẩm</div>;
 
-  // Ảnh lớn mặc định là ảnh đã chọn hoặc url_img mặc định
   const mainImage = selectedImage || product.url_img;
+
+  const handleBuyNow = async () => {
+    if (!user_id) return;
+    try {
+        await CartService.addToCart(id, 1, user_id);
+        window.dispatchEvent(new CustomEvent("cart_updated"));
+    } catch (err) {
+        console.error(err);
+    }
+};
 
   return (
     <div className="container-fluid">
@@ -86,8 +98,8 @@ const ProductDetail = () => {
               </ul>
             </div>
 
-            <div className="buy-button-container" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                <button className="buy-button" style={{width: "60%"}}>
+            <div className="buy-button-container" style={{display: "flex", justifyContent: "center", alignItems: "center"}} onClick={handleBuyNow}>
+                <button className="buy-button" style={{width: "60%"}} >
                     MUA NGAY
                     <div className="delivery-info">Giao tận nơi hoặc nhận tại cửa hàng</div>
                 </button>

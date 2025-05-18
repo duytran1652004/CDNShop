@@ -1,16 +1,17 @@
 import React from "react";
 import { Table } from "antd";
 
-const TableDataGrid = ({ columns, dataSource, rowKey }) => {
-  return (
-    <Table
-      columns={columns}
-      dataSource={dataSource}
-      rowKey={rowKey}
-      pagination={{ pageSize: 10 }}
-      bordered
-    />
-  );
-};
+const TableDataGrid = ({ columns, dataSource, rowKey, pagination, onChange }) => {
+    return (
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        rowKey={rowKey}
+        pagination={pagination}
+        bordered
+        onChange={onChange}
+      />
+    );
+  };
 
 export default TableDataGrid;

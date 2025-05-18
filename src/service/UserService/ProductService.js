@@ -21,6 +21,21 @@ class ProductService {
         return response.data;
     }
 
+    async getLaptopByFilter(params) {
+        const response = await pythonApi.get("/product/get_laptop_by_filter", {
+            params,
+        });
+        return response.data;
+    }
+
+    async getScreenByFilter(params) {
+        const response = await pythonApi.get("/product/get_screen_by_filter", {
+            params,
+        });
+        return response.data;
+    }
+
+
 }
 
 export default new ProductService();
