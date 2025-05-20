@@ -6,12 +6,12 @@ import "./listorder.css";
 const { Option } = Select;
 const { Title } = Typography;
 
-const statusColors = {
-  "Chờ xác nhận": "orange",
-  "Đã xác nhận": "blue",
-  "Đang giao hàng": "purple",
-  "Thành công": "green",
-};
+const statusOptions = [
+  { label: "Pending", value: "pending", color: "orange" },
+  { label: "Confirmed", value: "confirmed", color: "blue" },
+  { label: "Shipping", value: "shipping", color: "purple" },
+  { label: "Success", value: "success", color: "green" },
+];
 
 const ListOrder = () => {
   const [orders, setOrders] = useState([]);
@@ -23,24 +23,18 @@ const ListOrder = () => {
     try {
       const data = await ListOrderService.getOrders();
       if (Array.isArray(data.response)) {
-        // Gỡ dấu nháy nếu backend trả về kiểu "\"Chờ xác nhận\""
-        const cleaned = data.response.map((order) => ({
-          ...order,
-          status: typeof order.status === "string"
-            ? order.status.replace(/^"|"$/g, "") // xoá " ở đầu/cuối
-            : order.status,
-        }));
-        setOrders(cleaned);
+        setOrders(data.response);
       } else {
-        messageApi.error("Dữ liệu đơn hàng không hợp lệ");
+        messageApi.error("Invalid order data");
       }
     } catch (error) {
       console.error(error);
-      messageApi.error("Không thể tải danh sách đơn hàng");
+      messageApi.error("Failed to load orders");
     } finally {
       setLoading(false);
     }
   };
+
   const handleChangeStatus = async (orderId, newStatus) => {
     try {
       await ListOrderService.updateOrderStatus(orderId, newStatus);
@@ -49,10 +43,10 @@ const ListOrder = () => {
           order.orderId === orderId ? { ...order, status: newStatus } : order
         )
       );
-      messageApi.success("✅ Cập nhật trạng thái thành công");
+      messageApi.success(" Status updated successfully");
     } catch (error) {
       console.error(error);
-      messageApi.error("❌ Cập nhật trạng thái thất bại");
+      messageApi.error(" Failed to update status");
     }
   };
 
@@ -60,21 +54,14 @@ const ListOrder = () => {
     fetchOrders();
   }, []);
 
-  const statusOptions = [
-    "Chờ xác nhận",
-    "Đã xác nhận",
-    "Đang giao hàng",
-    "Thành công",
-  ];
-
   const columns = [
     {
-      title: "Mã đơn",
+      title: "Order ID",
       dataIndex: "orderId",
       key: "orderId",
     },
     {
-      title: "Khách hàng",
+      title: "Customer",
       dataIndex: "name",
       key: "name",
     },
@@ -84,35 +71,35 @@ const ListOrder = () => {
       key: "email",
     },
     {
-      title: "SĐT",
+      title: "Phone",
       dataIndex: "phone",
       key: "phone",
     },
     {
-      title: "Địa chỉ",
+      title: "Address",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Tổng tiền",
+      title: "Total",
       dataIndex: "totalAmount",
       key: "totalAmount",
       render: (value) => `${value.toLocaleString()} đ`,
     },
     {
-      title: "Trạng thái",
+      title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status, record) => (
         <Select
           value={status}
           onChange={(value) => handleChangeStatus(record.orderId, value)}
-          style={{ width: 180 }}
+          style={{ width: 160 }}
         >
-          {statusOptions.map((s) => (
-            <Option key={s} value={s}>
-              <Tag color={statusColors[s]} style={{ fontSize: 13, padding: "2px 10px" }}>
-                {s}
+          {statusOptions.map((option) => (
+            <Option key={option.value} value={option.value}>
+              <Tag color={option.color} style={{ fontSize: 13, padding: "2px 10px" }}>
+                {option.label}
               </Tag>
             </Option>
           ))}
@@ -122,20 +109,20 @@ const ListOrder = () => {
   ];
 
   return (
-   <>
-    {contextHolder}
-    <div style={{ padding: 24 }}>
-        <Title level={3}>📦 Danh sách đơn hàng</Title>
+    <>
+      {contextHolder}
+      <div style={{ padding: 24 }}>
+        <Title level={3}>📦 Order List</Title>
         <Table
-            columns={columns}
-            dataSource={orders}
-            rowKey="orderId"
-            loading={loading}
-            bordered
-            className="order-table-custom"
-            pagination={{ pageSize: 6 }}
+          columns={columns}
+          dataSource={orders}
+          rowKey="orderId"
+          loading={loading}
+          bordered
+          className="order-table-custom"
+          pagination={{ pageSize: 6 }}
         />
-        </div>
+      </div>
     </>
   );
 };

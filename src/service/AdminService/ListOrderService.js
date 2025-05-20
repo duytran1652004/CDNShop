@@ -5,10 +5,11 @@ class ListOrderService {
         const response = await javaApi.get("/api/dashboard/order");
         return response.data;
     }
-    async updateOrderStatus(orderId, statusString) {
+
+    async updateOrderStatus(orderId, status) {
         const response = await javaApi.patch(
             `/api/dashboard/order/${orderId}`,
-            `"${statusString}"`, // <-- wrap bằng dấu nháy kép
+            { status },
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -17,8 +18,6 @@ class ListOrderService {
         );
         return response.data;
     }
-
-
 }
 
 export default new ListOrderService();
