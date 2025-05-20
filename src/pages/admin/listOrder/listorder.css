@@ -1,0 +1,31 @@
+.order-table-custom .ant-table {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    background: #fff;
+  }
+
+  .order-table-custom .ant-table-thead > tr > th {
+    background-color: #f0f2f5;
+    font-weight: 600;
+    font-size: 15px;
+    color: #333;
+    text-align: center;
+  }
+
+  .order-table-custom .ant-table-tbody > tr > td {
+    font-size: 14px;
+    padding: 12px 10px;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .order-table-custom .ant-table-tbody > tr:hover > td {
+    background-color: #e6f7ff;
+  }
+
+  .order-table-custom .ant-tag {
+    font-size: 13px;
+    border-radius: 8px;
+    padding: 4px 10px;
+  }

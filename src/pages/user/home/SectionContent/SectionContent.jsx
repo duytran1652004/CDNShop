@@ -37,7 +37,7 @@ const SectionContent = ({ title, products = [], isDetail = true, category }) => 
                 key={product.id || index}
                 className={isDetail ? '' : 'custom-slide'}
             >
-                <ProductCard {...product} config_product={product.config_product} isDetail={isDetail} />
+                <ProductCard {...product} config_product={product.config_product} isDetail={isDetail} category={category} />
             </SwiperSlide>
 
         ))}

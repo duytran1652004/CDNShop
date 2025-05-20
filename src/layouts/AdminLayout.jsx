@@ -1,6 +1,7 @@
 import { Layout, Menu } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
+import { message } from "antd";
 
 const { Sider, Content } = Layout;
 
@@ -9,10 +10,11 @@ const AdminLayout = () => {
 
   const menuItems = [
     { key: 'dashboard', label: <Link to="/admin/dashboard">Dashboard</Link> },
-    { key: 'product', label: <Link to="/admin/product">Product</Link> },
-    { key: 'category', label: <Link to="/admin/category">Category</Link> },
-    { key: 'brand', label: <Link to="/admin/brand">Brand</Link> },
-    { key: 'user', label: <Link to="/admin/user">User</Link> },
+    { key: 'product', label: <Link to="/admin/product">Sản Phẩm</Link> },
+    { key: 'category', label: <Link to="/admin/category">Danh Mục</Link> },
+    { key: 'brand', label: <Link to="/admin/brand">Thương Hiệu</Link> },
+    { key: 'user', label: <Link to="/admin/user">Người Dùng</Link> },
+    { key: 'list-order', label: <Link to="/admin/list-order">Danh Sách Đơn Hàng</Link> },
   ];
 
   return (

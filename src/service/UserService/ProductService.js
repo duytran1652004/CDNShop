@@ -35,6 +35,17 @@ class ProductService {
         return response.data;
     }
 
+    async getMouseByFilter(params) {
+        const response = await pythonApi.get("/product/get_mice_by_filter", { params });
+        return response.data;
+    }
+
+    async getMousepadByFilter(params) {
+        const response = await pythonApi.get("/product/get_mouse_pab_by_filter", { params });
+        return response.data;
+    }
+
+
 
 }
 

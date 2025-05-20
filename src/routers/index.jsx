@@ -14,6 +14,7 @@ import CartByOrderBox from "../pages/user/cartByOrtherBox";
 import UserAdminPage from "../pages/admin/user";
 import OrderList from "../pages/user/OrderList/OrderList";
 import PageListProduct from "../pages/user/ListProduct/PageListProduct";
+import ListOrder from "../pages/admin/listOrder";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -34,6 +35,7 @@ const AppRoutes = () => {
           <Route path="category" element={<Category />} />
           <Route path="brand" element={<Brand />} />
           <Route path="user" element={<UserAdminPage />} />
+          <Route path="list-order" element={<ListOrder />} />
         </Route>
       </Route>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Dropdown, Menu, Divider } from "antd";
 import logo from "../../assets/CDN-Shop.png";
 import { Button, Input } from "antd";
@@ -10,17 +10,44 @@ import AuthContext from "../../context/AuthContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CartService from "../../service/UserService/CartService";
+import ProductSearchService from "../../service/UserService/ProductSearchService";
 import { useEffect } from "react";
+import debounce from "lodash/debounce";
 
 const MainHeader = () => {
     const { isLoginedIn, user, logout, user_id } = useContext(AuthContext);
     const navigate = useNavigate();
     const [modalVisible, setModalVisible] = useState(false);
     const [modalMode, setModalMode] = useState("login");
-
     const [cartCount, setCartCount] = useState(0);
+    const [searchValue, setSearchValue] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [showDropdown, setShowDropdown] = useState(false);
 
+    const debouncedSearch = useCallback(
+        debounce(async (value) => {
+            if (value.trim()) {
+                try {
+                    const results = await ProductSearchService.searchProducts(value);
+                    setSearchResults(results.response || []);
+                    setShowDropdown(true);
+                } catch (error) {
+                    setSearchResults([]);
+                    setShowDropdown(false);
+                }
+            } else {
+                setSearchResults([]);
+                setShowDropdown(false);
+            }
+        }, 1000),
+        [500]
+    );
 
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setSearchValue(value);
+        debouncedSearch(value);
+    };
 
     const handleLogout = () => {
         console.log("logout");
@@ -158,14 +185,58 @@ const MainHeader = () => {
             </div>
           </div>
           <div className="header-right">
-            <div className="header-action-item header-search">
-              <Input
-                className="input-search"
-                placeholder="Tìm kiếm"
-                prefix={<SearchOutlined />}
-                style={{ height: 40, width: 300 }}
-              />
-            </div>
+          <div className="header-action-item header-search" style={{ position: "relative" }}>
+                <Input
+                    className="input-search"
+                    placeholder="Tìm kiếm"
+                    prefix={<SearchOutlined />}
+                    style={{ height: 40, width: 300 }}
+                    value={searchValue}
+                    onChange={handleSearch}
+                    onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
+                    onFocus={() => { if (searchResults.length > 0) setShowDropdown(true); }}
+                />
+                {showDropdown && searchResults.length > 0 && (
+                    <div className="search-dropdown" style={{
+                    position: "absolute",
+                    top: 45,
+                    left: 0,
+                    width: 300,
+                    background: "#fff",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                    zIndex: 1000,
+                    borderRadius: 8,
+                    maxHeight: 400,
+                    overflowY: "auto"
+                    }}>
+                    {searchResults.map(product => (
+                        <div
+                        key={product.productId}
+                        className="search-dropdown-item"
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            padding: 8,
+                            borderBottom: "1px solid #f0f0f0",
+                            cursor: "pointer"
+                        }}
+                        onClick={() => {
+                            setShowDropdown(false);
+                            navigate(`/product/${product.productId}`);
+                        }}
+                        >
+                        <img src={product.urlImg} alt={product.name} style={{ width: 40, height: 40, objectFit: "cover", marginRight: 10, borderRadius: 4 }} />
+                        <div style={{ flex: 1 }}>
+                            <div style={{ fontWeight: 500 }}>{product.name}</div>
+                            <div style={{ color: "#ff4d4f", fontWeight: 600, fontSize: 14 }}>
+                            {Number(product.price).toLocaleString("vi-VN")}₫
+                            </div>
+                        </div>
+                        </div>
+                    ))}
+                    </div>
+                )}
+                </div>
             <div className="header-action-item">
               <Button
                 className="header-action-item-button"

@@ -15,8 +15,6 @@ const laptopItems = [
       { key: '1-3', label: 'MSI' },
       { key: '1-4', label: 'LENOVO' },
       { key: '1-5', label: 'DELL' },
-      { key: '1-6', label: 'HP - Pavilion' },
-      { key: '1-7', label: 'LG - Gram' },
     ],
   },
   {
@@ -156,6 +154,9 @@ const mouseItems = [
       { key: '8-2', label: 'Trắng' },
       { key: '8-3', label: 'Xanh' },
       { key: '8-4', label: 'Đỏ' },
+      { key: '8-5', label: 'Vàng' },
+      { key: '8-6', label: 'Tím' },
+      { key: '8-7', label: 'Hồng' },
     ],
   },
 ];
@@ -312,6 +313,19 @@ const DropDown = () => {
       "Màn hình": "screen",
     };
 
+    if (group === "Giá bán") {
+        let query = "";
+        if (value === "Dưới 15 triệu") {
+          query = "max=15000000";
+        } else if (value === "Từ 15 đến 20 triệu") {
+          query = "min=15000000&max=20000000";
+        } else if (value === "Trên 20 triệu") {
+          query = "min=20000000";
+        }
+        navigate(`/collection/laptop?${query}`);
+        return;
+      }
+
     const key = paramKeyMap[group];
     if (!key) return;
 
@@ -328,12 +342,59 @@ const DropDown = () => {
       "Tỉ lệ khung hình": "aspect_ratio",
     };
 
+
     const key = paramMap[group];
     if (!key) return;
 
     const query = `${key}=${encodeURIComponent(value)}`;
     navigate(`/collection/screen?${query}`);
   };
+
+  const handleMouseFilter = (group, value) => {
+    const paramMap = {
+      "Thương hiệu chuột": "brand",
+      "Kết nối chuột": "connectivity_type",
+      "DPI": "dpi",
+      "Màu chuột": "color",
+    };
+
+    if (group === "Chuột theo giá tiền") {
+      let query = "";
+      if (value === "Dưới 500 nghìn") {
+        query = "max=500000";
+      } else if (value === "Từ 500 nghìn - 1 triệu") {
+        query = "min=500000&max=1000000";
+      } else if (value === "Từ 1 triệu - 2 triệu") {
+        query = "min=1000000&max=2000000";
+      } else if (value === "Trên 2 triệu - 3 triệu") {
+        query = "min=2000000&max=3000000";
+      } else if (value === "Trên 3 triệu") {
+        query = "min=3000000";
+      }
+      navigate(`/collection/mouse?${query}`);
+      return;
+    }
+
+    const key = paramMap[group];
+    if (!key) return;
+    const query = `${key}=${encodeURIComponent(value)}`;
+    navigate(`/collection/mouse?${query}`);
+  };
+
+  const handleMousepadFilter = (group, value) => {
+    const paramMap = {
+      "Thương hiệu lót chuột": "brand",
+      "Chất liệu lót chuột": "material",
+      "Kích thước lót chuột": "size",
+      "Màu chuột": "color",
+    };
+
+    const key = paramMap[group];
+    if (!key) return;
+    const query = `${key}=${encodeURIComponent(value)}`;
+    navigate(`/collection/mousepad?${query}`);
+  };
+
 
   return (
     <div className="section-slider">
@@ -379,6 +440,19 @@ const DropDown = () => {
                               handleLaptopFilter(topLevelItem.label, secondLevelItem.label);
                             } else if (hoveredButton === "Màn hình") {
                               handleScreenFilter(topLevelItem.label, secondLevelItem.label);
+                            } else if (hoveredButton === "Chuột + Lót chuột") {
+                              const chuot = [
+                                "Thương hiệu chuột", "Kết nối chuột", "DPI", "Chuột theo giá tiền", "Màu chuột"
+                              ];
+                              const lot = [
+                                "Thương hiệu lót chuột", "Chất liệu lót chuột", "Kích thước lót chuột"
+                              ];
+
+                              if (chuot.includes(topLevelItem.label)) {
+                                handleMouseFilter(topLevelItem.label, secondLevelItem.label);
+                              } else if (lot.includes(topLevelItem.label)) {
+                                handleMousepadFilter(topLevelItem.label, secondLevelItem.label);
+                              }
                             }
                           }}
                       >

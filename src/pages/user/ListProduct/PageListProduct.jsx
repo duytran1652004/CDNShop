@@ -3,12 +3,20 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { Row, Col, Empty, Spin } from "antd";
 import ProductService from "../../../service/UserService/ProductService";
 import ProductCard from "../../../components/ProductCard/ProductCard";
+import "./PageListProduct.css";
 
 const PageListProduct = () => {
   const { category } = useParams();
   const [searchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+
+  let categoryFE = "";
+  if (category === "laptop") categoryFE = "Laptop";
+  if (category === "mouse") categoryFE = "Mice";
+  if (category === "mousepad") categoryFE = "Mousepad";
+  if (category === "screen") categoryFE = "Screen";
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -22,6 +30,8 @@ const PageListProduct = () => {
         const ram = searchParams.get("ram");
         const storage = searchParams.get("storage");
         const screen = searchParams.get("screen");
+        const min = searchParams.get("min");
+        const max = searchParams.get("max");
 
         result = await ProductService.getLaptopByFilter({
           brand,
@@ -29,6 +39,8 @@ const PageListProduct = () => {
           ram,
           storage,
           screen,
+          min,
+          max,
         });
       }
 
@@ -38,6 +50,8 @@ const PageListProduct = () => {
         const resolution = searchParams.get("resolution");
         const refresh_rate = searchParams.get("refresh_rate");
         const aspect_ratio = searchParams.get("aspect_ratio");
+        const min = searchParams.get("min");
+        const max = searchParams.get("max");
 
         result = await ProductService.getScreenByFilter({
           screen_type,
@@ -45,8 +59,37 @@ const PageListProduct = () => {
           resolution,
           refresh_rate,
           aspect_ratio,
+          min,
+          max,
         });
       }
+
+      if (category === "mouse") {
+        const brand = searchParams.get("brand");
+        const color = searchParams.get("color");
+        const connectivity_type = searchParams.get("connectivity_type");
+        const dpi = searchParams.get("dpi");
+        const min = searchParams.get("min");
+        const max = searchParams.get("max");
+
+        result = await ProductService.getMouseByFilter({
+          brand, color, connectivity_type, dpi, min, max
+        });
+      }
+
+      if (category === "mousepad") {
+        const brand = searchParams.get("brand");
+        const color = searchParams.get("color");
+        const material = searchParams.get("material");
+        const size = searchParams.get("size");
+        const min = searchParams.get("min");
+        const max = searchParams.get("max");
+
+        result = await ProductService.getMousepadByFilter({
+          brand, color, material, size, min, max
+        });
+      }
+
 
       setProducts(result);
     } catch (error) {
@@ -56,6 +99,8 @@ const PageListProduct = () => {
       setLoading(false);
     }
   };
+
+  console.log(products);
 
   useEffect(() => {
     fetchProducts();
@@ -70,18 +115,21 @@ const PageListProduct = () => {
       ) : (
         <div className="row" style={{padding:10, backgroundColor: "#fff"}}>
             <Row gutter={[16, 16]}>
+             <div className="grid-5-col">
                 {products.map((item) => (
-                    <Col xs={24} sm={12} md={8} lg={6} xl={6} key={item.product_id}>
+                    <div className="grid-item" key={item.product_id}>
                     <ProductCard
                         product_id={item.product_id}
                         url_img={item.url_img}
                         name={item.name}
                         price={item.price}
-                        config_product={item}
+                        config_product={item.config_product}
                         isDetail={true}
+                        category={categoryFE}
                     />
-                    </Col>
+                    </div>
                 ))}
+                </div>
             </Row>
         </div>
       )}

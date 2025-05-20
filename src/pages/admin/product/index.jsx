@@ -15,6 +15,9 @@ import MiceModal from "../mice/MiceModal";
 import MiceService from "../../../service/AdminService/MiceService";
 import MousepadService from "../../../service/AdminService/MousePadService";
 import MousepadModal from "../mouse-pad/MousepadModal";
+import HeadphoneModal from "../headphone/HeadPhoneModal";
+import HeadphoneService from "../../../service/AdminService/HeaderPhoneService";
+
 
 const Product = () => {
     const queryClient = useQueryClient();
@@ -24,7 +27,12 @@ const Product = () => {
     const [form] = Form.useForm();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [laptopConfig, setLaptopConfig] = useState({ ram: "", cpu: "", storage: "", screen: "" });
+
+
     const [laptopImages, setLaptopImages] = useState([]);
+    const [mouseImages, setMouseImages] = useState([]);
+    const [headphoneImages, setHeadphoneImages] = useState([]);
+    const [mousepadImages, setMousepadImages] = useState([]);
 
 
     const [isScreenModalVisible, setIsScreenModalVisible] = useState(false);
@@ -45,15 +53,11 @@ const Product = () => {
         connectivityType: "",
         dpi: "",
         });
-    const [mouseImages, setMouseImages] = useState([]);
-
-
     const [isMousepadModalVisible, setIsMousepadModalVisible] = useState(false);
     const [mousepadConfig, setMousepadConfig] = useState({
     material: "",
     size: ""
     });
-    const [mousepadImages, setMousepadImages] = useState([]);
     const [filters, setFilters] = useState({
       page: 0,
       name: "",
@@ -61,6 +65,13 @@ const Product = () => {
       categoryId: null,
       size: 10,
     });
+
+    const [isHeadphoneModalVisible, setIsHeadphoneModalVisible] = useState(false);
+    const [headphoneConfig, setHeadphoneConfig] = useState({
+        batteryLife: "",
+        color: "",
+        connectivityType: "",
+      });
 
     const materialOptions = ["Vải", "Nhựa", "Nhôm", "Kính"];
     const sizeOptions = ["Small", "Medium", "Large", "XL"];
@@ -72,45 +83,48 @@ const Product = () => {
 
 
     const screenTypeOptions = ["IPS", "VA", "TN", "OLED"];
-    const screenSizeOptions = ['21"', '23.8"', '24"', '27"', '32"', '34"', '49"'];
+    const screenSizeOptions = ['21', '23.8', '24', '27', '32', '34', '49'];
     const resolutionOptions = ["1920x1080", "2560x1440", "3840x2160", "5120x1440"];
-    const refreshRateOptions = ["60Hz", "75Hz", "120Hz", "144Hz", "165Hz", "240Hz"];
+    const refreshRateOptions = ["60", "75", "120", "144", "165", "240"];
     const aspectRatioOptions = ["16:9", "21:9", "32:9", "4:3"];
 
-    const colorOptions = ["Đen", "Trắng", "Xanh", "Đỏ", "Vàng", "Tím"];
+    const colorOptions = ["Đen", "Trắng", "Xanh", "Đỏ", "Vàng", "Tím", "Hồng"];
     const connectivityOptions = ["USB", "Bluetooth", "USB-C", "USB-Type-C"];
     const dpiOptions = ["400", "800", "1200", "1600", "2400", "3200"];
 
-  const { data: productData, isLoading: productsLoading } = useQuery({
-    queryKey: ["products", filters],
-    queryFn: () => ProductService.getAllProducts(filters),
-  });
 
-  const products = productData?.response || [];
-  console.log(products);
+    const batteryLifeOptions = ["10", "20", "30", "40", "50"];
 
-  const paginationInfo = {
-    current: productData?.info?.page || 1,
-    total: productData?.info?.total || 0,
-    pageSize: productData?.info?.size || 10,
-  };
+    const { data: productData, isLoading: productsLoading } = useQuery({
+        queryKey: ["products", filters],
+        queryFn: () => ProductService.getAllProducts(filters),
+    });
 
-  const handleTableChange = (pagination) => {
-    setFilters((prev) => ({
-      ...prev,
-      page: pagination.current,
-    }));
-  };
+    const products = productData?.response || [];
+    console.log(products);
 
-  const { data: brands } = useQuery({
-    queryKey: ["brands"],
-    queryFn: () => ProductService.getAllBrands(),
-  });
+    const paginationInfo = {
+        current: productData?.info?.page || 1,
+        total: productData?.info?.total || 0,
+        pageSize: productData?.info?.size || 10,
+    };
 
-  const { data: categories } = useQuery({
-    queryKey: ["categories"],
-    queryFn: () => ProductService.getAllCategories(),
-  });
+    const handleTableChange = (pagination) => {
+        setFilters((prev) => ({
+        ...prev,
+        page: pagination.current,
+        }));
+    };
+
+    const { data: brands } = useQuery({
+        queryKey: ["brands"],
+        queryFn: () => ProductService.getAllBrands(),
+    });
+
+    const { data: categories } = useQuery({
+        queryKey: ["categories"],
+        queryFn: () => ProductService.getAllCategories(),
+    });
 
   const createProductMutation = useMutation({
     mutationFn: (data) => ProductService.createProduct(data),
@@ -140,8 +154,7 @@ const Product = () => {
           await ScreenService.createScreen({ data: screenData, file: screenImages });
           setScreenImages([]);
         }
-
-        if (selectedCategory?.name === "Chuột") {
+        if (selectedCategory?.name === "Mice") {
             const miceData = {
               product: { productId: productData.productId },
               color: mouseConfig.color,
@@ -151,28 +164,54 @@ const Product = () => {
             await MiceService.createMice({ data: miceData, file: mouseImages });
             setMouseImages([]);
           }
-          if (selectedCategory?.name === "Lót chuột") {
+        if (selectedCategory?.name === "MousePad") {
             const mousepadData = {
-              product: { productId: productData.productId },
-              material: mousepadConfig.material,
-              size: mousepadConfig.size,
+                product: { productId: productData.productId },
+                material: mousepadConfig.material,
+                size: mousepadConfig.size,
             };
             const files = mousepadImages
-              .map(f => f.originFileObj)
-              .filter(f => f instanceof File);
+                .map(f => f.originFileObj)
+                .filter(f => f instanceof File);
             await MousepadService.createMousepad({ data: mousepadData, file: files });
             setMousepadImages([]);
+        }
+        if (selectedCategory?.name === "HeadPhone") {
+            const headphoneData = {
+              product: { productId: productData.productId },
+              batteryLife: headphoneConfig.batteryLife,
+              color: headphoneConfig.color,
+              connectivityType: headphoneConfig.connectivityType,
+            };
+            console.log(headphoneData);
+            const files = headphoneImages
+              .map((f) => f.originFileObj)
+              .filter((f) => f instanceof File);
+            console.log(files);
+            await HeadphoneService.createHeadphone({ data: headphoneData, file: files });
+            setHeadphoneImages([]);
+
+                // const mousepadData = {
+                //     product: { productId: productData.productId },
+                //     material: mousepadConfig.material,
+                //     size: mousepadConfig.size,
+                // };
+                // const files = mousepadImages
+                //     .map(f => f.originFileObj)
+                //     .filter(f => f instanceof File);
+                // await MousepadService.createMousepad({ data: mousepadData, file: files });
+                // setMousepadImages([]);
           }
-        queryClient.invalidateQueries(["products"]);
-        setIsModalVisible(false);
-        message.success("Tạo product thành công!");
+            queryClient.invalidateQueries(["products"]);
+            setIsModalVisible(false);
+            message.success("Tạo product thành công!");
       },
     onError: (error) => {
       message.error(`Tạo product thất bại: ${error.message}`);
     },
   });
 
-const updateProductMutation = useMutation({
+    const updateProductMutation = useMutation({
     mutationFn: ({ id, data }) => ProductService.updateProduct(id, data),
     onSuccess: async (productData) => {
       const productId = productData.productId ?? editProduct?.productId;
@@ -245,7 +284,7 @@ const updateProductMutation = useMutation({
       }
 
       // ------------------- MICE -------------------
-      if (selectedCategory?.name === "Chuột") {
+      if (selectedCategory?.name === "Mice") {
         const original = editProduct?.originalMouse || {};
 
         const mergedMiceData = {
@@ -272,7 +311,7 @@ const updateProductMutation = useMutation({
       }
 
       // ------------------- MOUSEPAD -------------------
-      if (selectedCategory?.name === "Lót chuột") {
+      if (selectedCategory?.name === "MousePad") {
         const original = editProduct?.originalMousepad || {};
 
         const mergedMousepadData = {
@@ -295,6 +334,30 @@ const updateProductMutation = useMutation({
         setMousepadImages([]);
       }
 
+      if (selectedCategory?.name === "HeadPhone") {
+        const original = editProduct?.originalHeadphone || {};
+
+        const mergedHeadphoneData = {
+          headphoneId: editProduct?.headphoneId || 0,
+          product: { productId },
+          batteryLife: headphoneConfig.batteryLife || original.batteryLife,
+          color: headphoneConfig.color || original.color,
+          connectivityType: headphoneConfig.connectivityType || original.connectivityType,
+        };
+
+        if (editProduct?.headphoneId) {
+          await HeadphoneService.updateHeadphone(editProduct.headphoneId, mergedHeadphoneData);
+        } else {
+          const imageFiles = headphoneImages.filter((f) => f.originFileObj).map((f) => f.originFileObj);
+          await HeadphoneService.createHeadphone({
+            data: mergedHeadphoneData,
+            file: imageFiles,
+          });
+        }
+
+        setHeadphoneImages([]);
+      }
+
       // ------------- Common Post-Update -------------
       queryClient.invalidateQueries(["products"]);
       setIsModalVisible(false);
@@ -303,46 +366,51 @@ const updateProductMutation = useMutation({
     onError: (error) => {
       message.error(`Cập nhật product thất bại: ${error.message}`);
     },
-  });
+    });
 
-  const deleteProductMutation = useMutation({
-    mutationFn: (id) => ProductService.deleteProduct(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["products"]);
-      message.success("Xóa product thành công!");
-    },
-    onError: (error) => {
-      message.error(`Xóa product thất bại: ${error.message}`);
-    },
-  });
+    const deleteProductMutation = useMutation({
+        mutationFn: (id) => ProductService.deleteProduct(id),
+        onSuccess: () => {
+        queryClient.invalidateQueries(["products"]);
+        message.success("Xóa product thành công!");
+        },
+        onError: (error) => {
+        message.error(`Xóa product thất bại: ${error.message}`);
+        },
+    });
 
     const handleCreateProduct = () => {
         setEditProduct(null);
         setSelectedCategory(null);
         setLaptopConfig({ ram: "", cpu: "", storage: "", screen: "" });
-        setLaptopImages([]);
-
         setScreenConfig({
-        screenType: "",
-        screenSize: "",
-        resolution: "",
-        refreshRate: "",
-        aspectRatio: "",
-        touchscreen: false,
+            screenType: "",
+            screenSize: "",
+            resolution: "",
+            refreshRate: "",
+            aspectRatio: "",
+            touchscreen: false,
         });
-        setScreenImages([]);
+        setMousepadConfig({
+            material: "",
+            size: "",
+        });
 
         setMouseConfig({
             color: "",
             connectivityType: "",
             dpi: "",
-          });
-          setMouseImages([]);
-          setMousepadConfig({
-            material: "",
-            size: "",
-          });
-          setMousepadImages([]);
+        });
+        setHeadphoneConfig({
+            batteryLife: "",
+            color: "",
+            connectivityType: "",
+        });
+        setScreenImages([]);
+        setLaptopImages([]);
+        setMouseImages([]);
+        setMousepadImages([]);
+        setHeadphoneImages([]);
 
         form.resetFields();
         setIsModalVisible(true);
@@ -359,6 +427,7 @@ const handleEditProduct = async (product) => {
     const screen = productDetail.screens?.[0];
     const mouse = productDetail.mice?.[0];
     const mousepad = productDetail.mousepads?.[0];
+    const headphone = productDetail.headphones?.[0];
 
     setLaptopConfig({
         ram: laptop?.ram || "",
@@ -398,6 +467,7 @@ const handleEditProduct = async (product) => {
     setScreenImages(imageList);
     setMouseImages(imageList);
     setMousepadImages(imageList);
+    setHeadphoneImages(imageList);
 
     form.setFieldsValue({
       name: productDetail.name,
@@ -416,8 +486,10 @@ const handleEditProduct = async (product) => {
         originalScreen: screen || {},
         mouseId: mouse?.miceId || null,
         originalMouse: mouse || {},
-        mousepadId: mousepad?.mousepadId || null,
-        originalMousepad: mousepad || {}
+        mousepadId: productDetail.mousepads?.[0]?.mousePadId || null,
+        originalMousepad: productDetail.mousepads?.[0] || {},
+        headphoneId: headphone?.headphoneId || null,
+        originalHeadphone: productDetail.headphones?.[0] || {},
       });
 
     setIsModalVisible(true);
@@ -460,19 +532,26 @@ const handleEditProduct = async (product) => {
         setScreenConfig({ screenType: "", screenSize: "", resolution: "", refreshRate: "", aspectRatio: "", touchscreen: false });
         setScreenImages([]);
       }
-      if (category?.name === "Chuột") {
+      if (category?.name === "Mice") {
         setIsMouseModalVisible(true);
       } else {
         setIsMouseModalVisible(false);
         setMouseConfig({ color: "", connectivityType: "", dpi: "" });
         setMouseImages([]);
       }
-      if (category?.name === "Lót chuột") {
+      if (category?.name === "MousePad") {
         setIsMousepadModalVisible(true);
       } else {
         setIsMousepadModalVisible(false);
         setMousepadConfig({ material: "", size: "" });
         setMousepadImages([]);
+      }
+      if (category?.name === "HeadPhone") {
+        setIsHeadphoneModalVisible(true);
+      } else {
+        setIsHeadphoneModalVisible(false);
+        setHeadphoneConfig({ batteryLife: "", color: "", connectivityType: "" });
+        setHeadphoneImages([]);
       }
 
   };
@@ -499,6 +578,14 @@ const handleEditProduct = async (product) => {
       return;
     }
     setIsMouseModalVisible(false);
+  };
+
+  const handleSaveHeadphoneConfig = () => {
+    if (!headphoneConfig.batteryLife || !headphoneConfig.color || !headphoneConfig.connectivityType) {
+      message.error("Vui lòng nhập đầy đủ thông tin tai nghe!");
+      return;
+    }
+    setIsHeadphoneModalVisible(false);
   };
 
 
@@ -588,8 +675,6 @@ const handleEditProduct = async (product) => {
             ))}
         </Select>
         </div>
-
-      {/* <TableDataGrid columns={columns} dataSource={products || []} /> */}
       <TableDataGrid
         columns={columns}
         dataSource={products}
@@ -700,7 +785,7 @@ const handleEditProduct = async (product) => {
                 </Button>
             </div>
             )}
-             {selectedCategory?.name === "Chuột" && (
+             {selectedCategory?.name === "Mice" && (
                             <div style={{ marginBottom: 16 }}>
                                 <Typography.Text strong>Cấu hình Chuột:</Typography.Text><br />
                                 <Typography.Text>
@@ -734,35 +819,60 @@ const handleEditProduct = async (product) => {
                                 </Button>
                             </div>
                             )}
-
-{selectedCategory?.name === "Lót chuột" && (
-  <div style={{ marginBottom: 16 }}>
-    <Typography.Text strong>Cấu hình Mousepad:</Typography.Text><br />
-    <Typography.Text>
-      Chất liệu: {mousepadConfig.material || "?"} | Kích thước: {mousepadConfig.size || "?"}
-    </Typography.Text><br />
-    <Typography.Text>Ảnh:</Typography.Text>
-    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
-      {mousepadImages.length > 0 ? (
-        mousepadImages.map((file, index) => (
-          <img
-            key={index}
-            src={file.url}
-            alt={file.name}
-            style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 4, border: '1px solid #ddd' }}
-          />
-        ))
-      ) : (
-        <Typography.Text type="secondary">Chưa có</Typography.Text>
-      )}
-    </div>
-    <Button type="link" onClick={() => setIsMousepadModalVisible(true)} style={{ marginTop: 8 }}>
-      Chỉnh sửa cấu hình
-    </Button>
-  </div>
-)}
-
-
+            {selectedCategory?.name === "MousePad" && (
+            <div style={{ marginBottom: 16 }}>
+                <Typography.Text strong>Cấu hình Mousepad:</Typography.Text><br />
+                <Typography.Text>
+                Chất liệu: {mousepadConfig.material || "?"} | Kích thước: {mousepadConfig.size || "?"}
+                </Typography.Text><br />
+                <Typography.Text>Ảnh:</Typography.Text>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+                {mousepadImages.length > 0 ? (
+                    mousepadImages.map((file, index) => (
+                    <img
+                        key={index}
+                        src={file.url}
+                        alt={file.name}
+                        style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 4, border: '1px solid #ddd' }}
+                    />
+                    ))
+                ) : (
+                    <Typography.Text type="secondary">Chưa có</Typography.Text>
+                )}
+                </div>
+                <Button type="link" onClick={() => setIsMousepadModalVisible(true)} style={{ marginTop: 8 }}>
+                Chỉnh sửa cấu hình
+                </Button>
+            </div>
+            )}
+            {selectedCategory?.name === "HeadPhone" && (
+            <div style={{ marginBottom: 16 }}>
+              <Typography.Text strong>Cấu hình Tai nghe:</Typography.Text><br />
+              <Typography.Text>
+                Thời lượng pin: {headphoneConfig.batteryLife || "?"} giờ |
+                Màu: {headphoneConfig.color || "?"} |
+                Kết nối: {headphoneConfig.connectivityType || "?"}
+              </Typography.Text><br />
+              <Typography.Text>Ảnh:</Typography.Text>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+                {headphoneImages.length > 0 ? (
+                  headphoneImages.map((file, index) => (
+                    <img
+                      key={index}
+                      src={file.url}
+                      alt={file.name}
+                      style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 4, border: '1px solid #ddd' }}
+                    />
+                  ))
+                ) : (
+                  <Typography.Text type="secondary">Chưa có</Typography.Text>
+                )}
+              </div>
+              <Button type="link" onClick={() => setIsHeadphoneModalVisible(true)} style={{ marginTop: 8 }}>
+                Chỉnh sửa cấu hình
+              </Button>
+            </div>
+          )}
           <Form.Item name="brandId" label="Thương hiệu" rules={[{ required: true }]}>
             <Select>
               {brands?.map((brand) => (
@@ -808,36 +918,52 @@ const handleEditProduct = async (product) => {
         />
 
         <MiceModal
-        visible={isMouseModalVisible}
-        onCancel={() => setIsMouseModalVisible(false)}
-        onOk={handleSaveMouseConfig}
-        mouseConfig={mouseConfig}
-        setMouseConfig={setMouseConfig}
-        mouseImages={mouseImages}
-        setMouseImages={setMouseImages}
-        colorOptions={colorOptions}
-        connectivityOptions={connectivityOptions}
-        dpiOptions={dpiOptions}
+            visible={isMouseModalVisible}
+            onCancel={() => setIsMouseModalVisible(false)}
+            onOk={handleSaveMouseConfig}
+            mouseConfig={mouseConfig}
+            setMouseConfig={setMouseConfig}
+            mouseImages={mouseImages}
+            setMouseImages={setMouseImages}
+            colorOptions={colorOptions}
+            connectivityOptions={connectivityOptions}
+            dpiOptions={dpiOptions}
         />
 
-<MousepadModal
-  visible={isMousepadModalVisible}
-  onCancel={() => setIsMousepadModalVisible(false)}
-  onOk={() => {
-    if (!mousepadConfig.material || !mousepadConfig.size) {
-      message.error("Vui lòng nhập đầy đủ thông tin mousepad!");
-      return;
-    }
-    setIsMousepadModalVisible(false);
-  }}
-  mousepadConfig={mousepadConfig}
-  setMousepadConfig={setMousepadConfig}
-  mousepadImages={mousepadImages}
-  setMousepadImages={setMousepadImages}
-  materialOptions={materialOptions}
-  sizeOptions={sizeOptions}
-/>
+        <MousepadModal
+            visible={isMousepadModalVisible}
+            onCancel={() => setIsMousepadModalVisible(false)}
+            onOk={() => {
+                if (!mousepadConfig.material || !mousepadConfig.size) {
+                message.error("Vui lòng nhập đầy đủ thông tin mousepad!");
+                return;
+                }
+                setIsMousepadModalVisible(false);
+            }}
+            mousepadConfig={mousepadConfig}
 
+
+            setMousepadConfig={setMousepadConfig}
+            mousepadImages={mousepadImages}
+            setMousepadImages={setMousepadImages}
+            materialOptions={materialOptions}
+            sizeOptions={sizeOptions}
+        />
+
+        <HeadphoneModal
+            visible={isHeadphoneModalVisible}
+            onCancel={() => setIsHeadphoneModalVisible(false)}
+            onOk={handleSaveHeadphoneConfig}
+            headphoneConfig={headphoneConfig}
+
+
+            setHeadphoneConfig={setHeadphoneConfig}
+            headphoneImages={headphoneImages}
+            setHeadphoneImages={setHeadphoneImages}
+            colorOptions={colorOptions}
+            connectivityOptions={connectivityOptions}
+            batteryLifeOptions={batteryLifeOptions}
+        />
     </div>
   );
 };

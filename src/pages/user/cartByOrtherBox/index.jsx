@@ -20,7 +20,8 @@ const CartByOrderBox = () => {
     const [buyerInfo, setBuyerInfo] = useState({
         name: "",
         phone: "",
-        address: ""
+        address: "",
+        email: ""
       });
       const [deliveryType, setDeliveryType] = useState("home");
       const [paymentMethod, setPaymentMethod] = useState("bank");
@@ -75,6 +76,7 @@ const CartByOrderBox = () => {
                 status: "confirmed",
                 total_amount: totalPrice,
                 address: buyerInfo.address,
+                email: buyerInfo.email,
                 phone: buyerInfo.phone,
                 name: buyerInfo.name,
                 payment_method: paymentMethod,
@@ -90,7 +92,7 @@ const CartByOrderBox = () => {
                 localStorage.setItem("pendingOrder", JSON.stringify(orderData));
             const result = await VnpayService.payment({
               amount: totalPrice,
-              order_desc: buyerInfo.address
+              order_desc: buyerInfo.email
             });
             window.open(result.payment_url, "_self");
 
@@ -354,6 +356,13 @@ const CartByOrderBox = () => {
             ]}
         >
             <Input placeholder="Nhập số điện thoại" />
+        </Form.Item>
+        <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Vui lòng nhập email" }]}
+        >
+            <Input placeholder="Nhập email" />
         </Form.Item>
         <Form.Item
             label="Địa chỉ"

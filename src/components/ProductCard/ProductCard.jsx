@@ -1,6 +1,6 @@
 import { Image } from 'antd';
 import './ProductCard.css';
-import { CpuIcon, RamIcon, StorageIcon, ScreenIcon } from '../../assets/iconSVG/constants';
+import { CpuIcon, RamIcon, StorageIcon, ScreenIcon, MiceIcon1, MiceIcon2, MiceIcon3 } from '../../assets/iconSVG/constants';
 import { useNavigate } from 'react-router-dom';
 import ProductViewHistoryService from '../../service/UserService/ProductViewHistoryService';
 import AuthContext from "../../context/AuthContext";
@@ -19,7 +19,8 @@ const ProductCard = ({
     name,
     price,
     config_product = {},
-    isDetail = false
+    isDetail = false,
+    category
   }) => {
     const navigate = useNavigate();
     const { user_id } = useContext(AuthContext);
@@ -42,6 +43,37 @@ const ProductCard = ({
         label: config_product?.screen || "N/A",
       },
     ];
+
+    const iconMice = [
+        {
+            icon: <MiceIcon1 />,
+            label: config_product?.color || "N/A",
+        },
+        {
+            icon: <MiceIcon2 />,
+            label: config_product?.connectivity_type || "N/A",
+        },
+        {
+            icon: <MiceIcon3 />,
+            label: config_product?.dpi || "N/A",
+        },
+    ]
+
+    const iconMousepad = [
+      {
+        icon: <MiceIcon1 />,
+        label: config_product?.size || "N/A",
+      },
+      {
+        icon: <MiceIcon2 />,
+        label: config_product?.material || "N/A",
+      },
+      {
+        icon: <MiceIcon3 />,
+        label: config_product?.color || "N/A",
+      },
+    ]
+
     return (
       <div className={`section-content ${!isDetail && "detail-card"}`}  onClick={async () => {
         await ProductViewHistoryService.recordView(product_id, user_id);
@@ -54,10 +86,24 @@ const ProductCard = ({
             <div className="product-name">{name}</div>
             {isDetail && (
               <div className="technical">
-                {iconTech.map((tech, index) => (
+
+                {category === "Laptop" && iconTech.map((tech, index) => (
                   <div key={index} className="technical--line">
                     {tech.icon}
                     <span className="technical-label">{tech.label}</span>
+                  </div>
+                ))}
+
+                {category === "Mice" && iconMice.map((mice, index) => (
+                  <div key={index} className="technical--line">
+                    {mice.icon}
+                    <span className="technical-label">{mice.label}</span>
+                  </div>
+                ))}
+                {category === "Mousepad" && iconMousepad.map((mousepad, index) => (
+                  <div  key={index} className="technical--line">
+                    {mousepad.icon}
+                    <span className="technical-label">{mousepad.label}</span>
                   </div>
                 ))}
               </div>

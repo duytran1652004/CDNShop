@@ -1,0 +1,9 @@
+.grid-5-col {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+
+  .grid-item {
+    background: white;
+  }
