@@ -81,6 +81,16 @@ const ListOrder = () => {
       key: "address",
     },
     {
+        title: "Phương thức thanh toán",
+        dataIndex: "paymentMethod",
+        key: "paymentMethod",
+    },
+    {
+        title: "Trạng thái",
+        dataIndex: "paymentStatus",
+        key: "paymentStatus",
+    },
+    {
       title: "Total",
       dataIndex: "totalAmount",
       key: "totalAmount",
