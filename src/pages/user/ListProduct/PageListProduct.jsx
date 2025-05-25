@@ -17,7 +17,13 @@ const PageListProduct = () => {
     if (category === "mouse") categoryFE = "Mice";
     if (category === "mousepad") categoryFE = "Mousepad";
     if (category === "screen") categoryFE = "Screen";
-
+    if (category === "vga") categoryFE = "VGA";
+    if (category === "headphone") categoryFE = "HeadPhone";
+    if (category === "cpu") categoryFE = "CPU";
+    if (category === "ram") categoryFE = "RAM";
+    if (category === "ssd") categoryFE = "SSD";
+    if (category === "mainboard") categoryFE = "Mainboard";
+    if (category === "ssd") categoryFE = "SSD";
 
     const fetchProducts = async () => {
         setLoading(true);
@@ -43,8 +49,7 @@ const PageListProduct = () => {
                 min,
                 max,
             });
-      }
-
+        }
         if (category === "screen") {
             const screen_type = searchParams.get("screen_type");
             const screen_size = searchParams.get("screen_size");
@@ -64,7 +69,6 @@ const PageListProduct = () => {
                 max,
             });
         }
-
         if (category === "mouse") {
             const brand = searchParams.get("brand");
             const color = searchParams.get("color");
@@ -77,7 +81,6 @@ const PageListProduct = () => {
                 brand, color, connectivity_type, dpi, min, max
             });
         }
-
         if (category === "mousepad") {
             const brand = searchParams.get("brand");
             const color = searchParams.get("color");
@@ -90,7 +93,80 @@ const PageListProduct = () => {
                 brand, color, material, size, min, max
             });
         }
+        if (category === "headphone") {
+            const brand = searchParams.get("brand");
+            const connectivity_type = searchParams.get("connectivity_type");
+            const min = searchParams.get("min");
+            const max = searchParams.get("max");
 
+            result = await ProductService.getHeadphoneByFilter({
+                brand, connectivity_type, min, max
+            });
+        }
+        if (category === "cpu") {
+            const brand = searchParams.get("brand");
+            const cpu_type = searchParams.get("cpu_type");
+            const socket = searchParams.get("socket");
+            const threads = searchParams.get("threads");
+            const multiplier = searchParams.get("multiplier");
+            const min = searchParams.get("min");
+            const max = searchParams.get("max");
+
+            result = await ProductService.getCpuByFilter({
+                brand, cpu_type, socket, threads, multiplier, min, max
+            });
+        }
+        if (category === "ram") {
+            const brand = searchParams.get("brand");
+            const capacity = searchParams.get("capacity");
+            const type = searchParams.get("type");
+            const speed = searchParams.get("speed");
+            const min = searchParams.get("min");
+            const max = searchParams.get("max");
+
+            result = await ProductService.getRamByFilter({
+                brand, capacity, type, speed, min, max
+            });
+        }
+        if (category === "vga") {
+            const brand = searchParams.get("brand");
+            const architecture = searchParams.get("architecture");
+            const cuda_cores = searchParams.get("cuda_cores");
+            const rt_cores = searchParams.get("rt_cores");
+            const tensor_cores = searchParams.get("tensor_cores");
+            const min = searchParams.get("min");
+            const max = searchParams.get("max");
+
+            result = await ProductService.getVgaByFilter({
+                brand, architecture, cuda_cores, rt_cores, tensor_cores, min, max
+            });
+        }
+        if (category === "mainboard") {
+            const brand = searchParams.get("brand");
+            const chipset = searchParams.get("chipset");
+            const audio = searchParams.get("audio");
+            const integrated_graphics = searchParams.get("integrated_graphics");
+            const lan = searchParams.get("lan");
+            const memory = searchParams.get("memory");
+            const min = searchParams.get("min");
+            const max = searchParams.get("max");
+
+            result = await ProductService.getMainByFilter({
+                brand, chipset, audio, integrated_graphics, lan, memory, min, max
+            });
+        }
+        if (category === "ssd") {
+            const brand = searchParams.get("brand");
+            const capacity = searchParams.get("capacity");
+            const read_speed = searchParams.get("read_speed");
+            const write_speed = searchParams.get("write_speed");
+            const min = searchParams.get("min");
+            const max = searchParams.get("max");
+
+            result = await ProductService.getSsdByFilter({
+                brand, capacity, read_speed, write_speed, min, max
+            });
+        }
 
         setProducts(result);
     } catch (error) {

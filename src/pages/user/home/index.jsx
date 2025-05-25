@@ -5,26 +5,26 @@ import SectionContent from './SectionContent/SectionContent';
 import ProductService from '../../../service/UserService/ProductService';
 import RecentViewSection from './SectionContent/RecentViewSection';
 
-const DUMMY_CATEGORIES = ['Laptop', 'HeadPhone', 'Mice', 'Screen'];
+const DUMMY_CATEGORIES = ['Laptop', 'Headphone', 'Mice', 'Screen'];
 
-const getTwoRandomCategories = () => {
-    if (DUMMY_CATEGORIES.length < 2) return [DUMMY_CATEGORIES[0], DUMMY_CATEGORIES[0]];
-    const shuffled = [...DUMMY_CATEGORIES].sort(() => 0.5 - Math.random());
-    return [shuffled[0], shuffled[1]];
-  };
+// const getTwoRandomCategories = () => {
+//     if (DUMMY_CATEGORIES.length < 2) return [DUMMY_CATEGORIES[0], DUMMY_CATEGORIES[0]];
+//     const shuffled = [...DUMMY_CATEGORIES].sort(() => 0.5 - Math.random());
+//     return [shuffled[0], shuffled[1]];
+//   };
 
   const Home = () => {
-    const [categories] = React.useState(getTwoRandomCategories());
+    const [categories] = React.useState(DUMMY_CATEGORIES);
 
     const { data: products1 = [], isLoading: loading1, isError: error1, error: err1 } = useQuery({
-      queryKey: ['products', categories[0]],
-      queryFn: () => ProductService.getProducts(categories[0]),
+      queryKey: ['products', DUMMY_CATEGORIES[0]],
+      queryFn: () => ProductService.getProducts(DUMMY_CATEGORIES[0]),
       staleTime: 1000 * 60 * 5,
     });
 
     const { data: products2 = [], isLoading: loading2, isError: error2, error: err2 } = useQuery({
-      queryKey: ['products', categories[1]],
-      queryFn: () => ProductService.getProducts(categories[1]),
+      queryKey: ['products', DUMMY_CATEGORIES[1]],
+      queryFn: () => ProductService.getProducts(DUMMY_CATEGORIES[1]),
       staleTime: 1000 * 60 * 5,
     });
 

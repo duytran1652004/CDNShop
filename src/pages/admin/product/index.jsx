@@ -31,6 +31,10 @@ import VgaService from "../../../service/AdminService/VgaService";
 import RAMModal from "../ram/RAMModal";
 import RamService from "../../../service/AdminService/RamService";
 
+import SSDModal from "../ssd/SSDModal";
+import SSDService from "../../../service/AdminService/SSDService";
+
+
 
 
 
@@ -124,6 +128,14 @@ const Product = () => {
     speed: ""
     });
     const [ramImages, setRamImages] = useState([]);
+
+    const [isSSDModalVisible, setIsSSDModalVisible] = useState(false);
+    const [ssdConfig, setSsdConfig] = useState({
+    capacity: "",
+    readSpeed: "",
+    writeSpeed: ""
+    });
+    const [ssdImages, setSsdImages] = useState([]);
 
 
 
@@ -294,7 +306,18 @@ const Product = () => {
             const files = ramImages.filter(f => f instanceof File);
             await RamService.createRAM({ data: ramData, file: files });
             setRamImages([]);
-          }
+            }
+        if (selectedCategory?.name === "SSD") {
+            const ssdData = {
+            product: { productId: productData.productId },
+            capacity: ssdConfig.capacity,
+            readSpeed: ssdConfig.readSpeed,
+            writeSpeed: ssdConfig.writeSpeed
+            }
+            const files = ssdImages.filter(f => f instanceof File);
+            await SSDService.createSSD({ data: ssdData, file: files });
+            setSsdImages([]);
+        }
             queryClient.invalidateQueries(["products"]);
             setIsModalVisible(false);
             message.success("Tạo product thành công!");
@@ -530,6 +553,25 @@ const Product = () => {
         setRamImages([]);
       }
 
+      if (selectedCategory?.name === "SSD") {
+        const original = editProduct?.originalSSD || {};
+        const mergedSsdData = {
+          ssdId: editProduct?.ssdId || 0,
+          product: { productId },
+          capacity: ssdConfig.capacity || original.capacity,
+          readSpeed: ssdConfig.readSpeed || original.readSpeed,
+          writeSpeed: ssdConfig.writeSpeed || original.writeSpeed
+        };
+
+        if (editProduct?.ssdId) {
+          await SSDService.updateSSD(editProduct.ssdId, mergedSsdData);
+        } else {
+          const imageFiles = ssdImages.filter(f => f.originFileObj).map(f => f.originFileObj);
+          await SSDService.createSSD({ data: mergedSsdData, file: imageFiles });
+        }
+
+        setSsdImages([]);
+      }
 
 
       // ------------- Common Post-Update -------------
@@ -604,17 +646,23 @@ const Product = () => {
             type: "",
             speed: ""
         });
+        setSsdConfig({
+            capacity: "",
+            readSpeed: "",
+            writeSpeed: ""
+        });
 
 
         setScreenImages([]);
         setLaptopImages([]);
         setMouseImages([]);
         setMousepadImages([]);
-            setHeadphoneImages([]);
+        setHeadphoneImages([]);
         setVgaImages([]);
         setRamImages([]);
         setCpuImages([]);
         setMainImages([]);
+        setSsdImages([]);
         form.resetFields();
         setIsModalVisible(true);
     };
@@ -635,7 +683,7 @@ const handleEditProduct = async (product) => {
     const main = productDetail.mainboards?.[0];
     const vga = productDetail.vgas?.[0];
     const ram = productDetail.rams?.[0];
-
+    const ssd = productDetail.ssds?.[0];
 
     setLaptopConfig({
         ram: laptop?.ram || "",
@@ -697,6 +745,12 @@ const handleEditProduct = async (product) => {
         type: ram?.type || "",
         speed: ram?.speed || ""
       });
+
+      setSsdConfig({
+        capacity: ssd?.capacity || "",
+        readSpeed: ssd?.readSpeed || "",
+        writeSpeed: ssd?.writeSpeed || ""
+      });
     const imageList = productDetail.images?.map((img, index) => ({
       uid: `${index}`,
       name: img.url?.split("/").pop() || `image-${index}`,
@@ -713,7 +767,7 @@ const handleEditProduct = async (product) => {
     setMainImages(imageList);
     setVgaImages(imageList);
     setRamImages(imageList);
-
+    setSsdImages(imageList);
 
     form.setFieldsValue({
       name: productDetail.name,
@@ -744,6 +798,8 @@ const handleEditProduct = async (product) => {
         originalVGA: productDetail.vgas?.[0] || {},
         ramId: productDetail.rams?.[0]?.ramId || null,
         originalRam: productDetail.rams?.[0] || {},
+        ssdId: productDetail.ssds?.[0]?.ssdId || null,
+        originalSSD: productDetail.ssds?.[0] || {},
       });
 
     setIsModalVisible(true);
@@ -852,6 +908,13 @@ const handleEditProduct = async (product) => {
         setRamConfig({ capacity: "", type: "", speed: "" });
         setRamImages([]);
       }
+      if (category?.name === "SSD") {
+        setIsSSDModalVisible(true);
+      } else {
+        setIsSSDModalVisible(false);
+        setSsdConfig({ capacity: "", readSpeed: "", writeSpeed: "" });
+        setSsdImages([]);
+      }
   };
 
   const handleSaveLaptopConfig = () => {
@@ -918,6 +981,14 @@ const handleEditProduct = async (product) => {
     setIsVGAModalVisible(false);
   };
 
+  const handleSaveSsdConfig = () => {
+    if (!ssdConfig.capacity || !ssdConfig.readSpeed || !ssdConfig.writeSpeed) {
+      message.error("Vui lòng nhập đầy đủ thông tin SSD!");
+      return;
+    }
+    setIsSSDModalVisible(false);
+  };
+
   const columns = [
     { title: "ID", dataIndex: "productId", key: "productId" },
     { title: "Tên", dataIndex: "name", key: "name" },
@@ -958,48 +1029,6 @@ const handleEditProduct = async (product) => {
     },
   ];
 
-
-
-
-// const columns = [
-//     { title: "ID", dataIndex: "productId", key: "productId" },
-//     { title: "Tên", dataIndex: "name", key: "name" },
-//     { title: "Mô tả", dataIndex: "description", key: "description" },
-//     { title: "Giá", dataIndex: "price", key: "price" },
-//     {
-//         title: "Danh mục",
-//         dataIndex: "category",
-//         key: "category",
-//         render: (category) => category?.name || "",
-//       },
-//       {
-//         title: "Thương hiệu",
-//         dataIndex: "brand",
-//         key: "brand",
-//         render: (brand) => brand?.name || "",
-//       },
-//     { title: "Tồn kho", dataIndex: "stockQuantity", key: "stockQuantity" },
-//     {
-//         title: "Ảnh",
-//         dataIndex: "urlImg",
-//         key: "urlImg",
-//         render: (url) => (
-//           <img src={url} alt="Ảnh sản phẩm" style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 4 }} />
-//         ),
-//       },
-//     {
-//       title: "Hành động",
-//       key: "action",
-//       render: (_, record) => (
-//         <Space>
-//           <Button type="primary" onClick={() => handleEditProduct(record)}>Sửa</Button>
-//           <Popconfirm title="Xóa?" onConfirm={() => deleteProductMutation.mutate(record.productId)}>
-//             <Button danger>Xóa</Button>
-//           </Popconfirm>
-//         </Space>
-//       ),
-//     },
-//   ];
   return (
     <div style={{ padding: "20px" }}>
       <h1>Quản lý Product</h1>
@@ -1007,61 +1036,52 @@ const handleEditProduct = async (product) => {
         Tạo Product
       </Button>
       <div style={{ marginBottom: 16, display: 'flex', gap: 12 }}>
-        <Input.Search
-            placeholder="Tìm theo tên"
-            allowClear
-            onSearch={(value) =>
-            setFilters((prev) => ({ ...prev, name: value, page: 0 }))
-            }
-            style={{ width: 200 }}
-        />
-        <Select
-            placeholder="Lọc theo thương hiệu"
-            allowClear
-            style={{ width: 200 }}
-            value={filters.brandId}
-            onChange={(value) =>
-            setFilters((prev) => ({ ...prev, brandId: value ?? null, page: 0 }))
-            }
-        >
-            {brands?.map((b) => (
-            <Option key={b.brandId} value={b.brandId}>
-                {b.name}
-            </Option>
-            ))}
-        </Select>
-        <Select
-            placeholder="Lọc theo danh mục"
-            allowClear
-            style={{ width: 200 }}
-            value={filters.categoryId}
-            onChange={(value) =>
-            setFilters((prev) => ({ ...prev, categoryId: value ?? null, page: 0 }))
-            }
-        >
-            {categories?.map((c) => (
-            <Option key={c.categoryId} value={c.categoryId}>
-                {c.name}
-            </Option>
-            ))}
-        </Select>
+            <Input.Search
+                placeholder="Tìm theo tên"
+                allowClear
+                onSearch={(value) =>
+                setFilters((prev) => ({ ...prev, name: value, page: 0 }))
+                }
+                style={{ width: 200 }}
+            />
+            <Select
+                placeholder="Lọc theo thương hiệu"
+                allowClear
+                style={{ width: 200 }}
+                value={filters.brandId}
+                onChange={(value) =>
+                setFilters((prev) => ({ ...prev, brandId: value ?? null, page: 0 }))
+                }
+            >
+                {brands?.map((b) => (
+                <Option key={b.brandId} value={b.brandId}>
+                    {b.name}
+                </Option>
+                ))}
+            </Select>
+            <Select
+                placeholder="Lọc theo danh mục"
+                allowClear
+                style={{ width: 200 }}
+                value={filters.categoryId}
+                onChange={(value) =>
+                setFilters((prev) => ({ ...prev, categoryId: value ?? null, page: 0 }))
+                }
+            >
+                {categories?.map((c) => (
+                <Option key={c.categoryId} value={c.categoryId}>
+                    {c.name}
+                </Option>
+                ))}
+            </Select>
         </div>
-
-
-
-
-
-                        <Table
-                columns={columns}
-                dataSource={productData?.response || []}
-                pagination={paginationInfo}
-                rowKey="productId"
-                onChange={handleTableChange}
-                />
-
-
-
-
+        <TableDataGrid
+            columns={columns}
+            dataSource={productData?.response || []}
+            pagination={paginationInfo}
+            rowKey="productId"
+            onChange={handleTableChange}
+        />
       <Modal
         width={800}
         title={editProduct ? "Chỉnh sửa Product" : "Tạo Product"}
@@ -1365,6 +1385,34 @@ const handleEditProduct = async (product) => {
                     </Button>
                 </div>
             )}
+            {selectedCategory?.name === "SSD" && (
+                <div style={{ marginBottom: 16 }}>
+                    <Typography.Text strong>Cấu hình SSD:</Typography.Text><br />
+                    <Typography.Text>
+                        Dung lượng: {ssdConfig.capacity || "?"} |
+                        Tốc độ đọc: {ssdConfig.readSpeed || "?"} |
+                        Tốc độ ghi: {ssdConfig.writeSpeed || "?"}
+                    </Typography.Text><br />
+                    <Typography.Text>Ảnh:</Typography.Text>
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+                        {ssdImages.length > 0 ? (
+                            ssdImages.map((file, index) => (
+                                <img
+                                    key={index}
+                                    src={file.url}
+                                    alt={file.name}
+                                    style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 4, border: '1px solid #ddd' }}
+                                />
+                            ))
+                        ) : (
+                            <Typography.Text type="secondary">Chưa có</Typography.Text>
+                        )}
+                    </div>
+                    <Button type="link" onClick={() => setIsSSDModalVisible(true)} style={{ marginTop: 8 }}>
+                        Chỉnh sửa cấu hình
+                    </Button>
+                </div>
+            )}
           <Form.Item name="brandId" label="Thương hiệu" rules={[{ required: true }]}>
             <Select>
               {brands?.map((brand) => (
@@ -1488,7 +1536,17 @@ const handleEditProduct = async (product) => {
             setRamConfig={setRamConfig}
             ramImages={ramImages}
             setRamImages={setRamImages}
-            />
+        />
+
+        <SSDModal
+            visible={isSSDModalVisible}
+            onCancel={() => setIsSSDModalVisible(false)}
+            onOk={handleSaveSsdConfig}
+            ssdConfig={ssdConfig}
+            setSsdConfig={setSsdConfig}
+            ssdImages={ssdImages}
+            setSsdImages={setSsdImages}
+        />
     </div>
   );
 };

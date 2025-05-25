@@ -259,7 +259,312 @@ const monitorFilterItems = [
         { key: "5-4", label: "4:3" },
       ],
     },
+];
+
+const cpuItems = [
+    {
+      key: '1',
+      label: 'Thương hiệu',
+      children: [
+        { key: '1-1', label: 'Intel' },
+        { key: '1-2', label: 'AMD' },
+      ],
+    },
+    {
+      key: '2',
+      label: 'Loại CPU',
+      children: [
+        { key: '2-1', label: 'Core i3' },
+        { key: '2-2', label: 'Core i5' },
+        { key: '2-3', label: 'Core i7' },
+        { key: '2-4', label: 'Core i9' },
+        { key: '2-5', label: 'Ryzen 3' },
+        { key: '2-6', label: 'Ryzen 5' },
+        { key: '2-7', label: 'Ryzen 7' },
+        { key: '2-8', label: 'Ryzen 9' },
+      ],
+    },
+    {
+      key: '3',
+      label: 'Socket',
+      children: [
+        { key: '3-1', label: 'LGA 1200' },
+        { key: '3-2', label: 'LGA 1700' },
+        { key: '3-3', label: 'AM4' },
+        { key: '3-4', label: 'AM5' },
+      ],
+    },
+    {
+      key: '4',
+      label: 'Threads',
+      children: [
+        { key: '4-1', label: '4' },
+        { key: '4-2', label: '6' },
+        { key: '4-3', label: '8' },
+        { key: '4-4', label: '12' },
+        { key: '4-5', label: '16' },
+      ],
+    },
+    {
+      key: '5',
+      label: 'Multiplier',
+      children: [
+        { key: '5-1', label: 'Yes' },
+        { key: '5-2', label: 'No' },
+      ],
+    },
+    {
+      key: '6',
+      label: 'Giá tiền',
+      children: [
+        { key: '6-1', label: 'Dưới 3 triệu' },
+        { key: '6-2', label: '3 - 5 triệu' },
+        { key: '6-3', label: '5 - 8 triệu' },
+        { key: '6-4', label: 'Trên 8 triệu' },
+      ],
+    },
+];
+
+const ramItems = [
+    {
+      key: '1',
+      label: 'Thương hiệu',
+      children: [
+        { key: '1-1', label: 'Corsair' },
+        { key: '1-2', label: 'G.Skill' },
+        { key: '1-3', label: 'Kingston' },
+        { key: '1-4', label: 'TeamGroup' },
+        { key: '1-5', label: 'ADATA' },
+      ],
+    },
+    {
+      key: '2',
+      label: 'Dung lượng',
+      children: [
+        { key: '2-1', label: '4GB' },
+        { key: '2-2', label: '8GB' },
+        { key: '2-3', label: '16GB' },
+        { key: '2-4', label: '32GB' },
+      ],
+    },
+    {
+      key: '3',
+      label: 'Loại RAM',
+      children: [
+        { key: '3-1', label: 'DDR3' },
+        { key: '3-2', label: 'DDR4' },
+        { key: '3-3', label: 'DDR5' },
+      ],
+    },
+    {
+      key: '4',
+      label: 'Tốc độ',
+      children: [
+        { key: '4-1', label: '2400MHz' },
+        { key: '4-2', label: '2666MHz' },
+        { key: '4-3', label: '3000MHz' },
+        { key: '4-4', label: '3200MHz' },
+        { key: '4-5', label: '3600MHz' },
+        { key: '4-6', label: '4000MHz' },
+      ],
+    },
+    {
+      key: '5',
+      label: 'Giá tiền',
+      children: [
+        { key: '5-1', label: 'Dưới 500 nghìn' },
+        { key: '5-2', label: '500 nghìn - 1 triệu' },
+        { key: '5-3', label: '1 - 2 triệu' },
+        { key: '5-4', label: '2 - 3 triệu' },
+        { key: '5-5', label: 'Trên 3 triệu' },
+      ],
+    },
   ];
+
+  const vgaItems = [
+    {
+      key: '1',
+      label: 'Thương hiệu',
+      children: [
+        { key: '1-1', label: 'NVIDIA' },
+        { key: '1-2', label: 'AMD' },
+        { key: '1-3', label: 'Intel' },
+      ],
+    },
+    {
+      key: '2',
+      label: 'Kiến trúc',
+      children: [
+        { key: '2-1', label: 'Ampere' },
+        { key: '2-2', label: 'Ada Lovelace' },
+        { key: '2-3', label: 'RDNA 2' },
+        { key: '2-4', label: 'RDNA 3' },
+      ],
+    },
+    {
+      key: '3',
+      label: 'CUDA Cores',
+      children: [
+        { key: '3-1', label: '2048' },
+        { key: '3-2', label: '2560' },
+        { key: '3-3', label: '3584' },
+        { key: '3-4', label: '5120' },
+      ],
+    },
+    {
+      key: '4',
+      label: 'RT Cores',
+      children: [
+        { key: '4-1', label: '30' },
+        { key: '4-2', label: '40' },
+        { key: '4-3', label: '60' },
+      ],
+    },
+    {
+      key: '5',
+      label: 'Tensor Cores',
+      children: [
+        { key: '5-1', label: '120' },
+        { key: '5-2', label: '160' },
+        { key: '5-3', label: '220' },
+      ],
+    },
+    {
+      key: '6',
+      label: 'Giá tiền',
+      children: [
+        { key: '6-1', label: 'Dưới 5 triệu' },
+        { key: '6-2', label: '5 - 10 triệu' },
+        { key: '6-3', label: '10 - 15 triệu' },
+        { key: '6-4', label: 'Trên 15 triệu' },
+      ],
+    },
+  ];
+
+  const mainboardItems = [
+    {
+      key: '1',
+      label: 'Thương hiệu',
+      children: [
+        { key: '1-1', label: 'ASUS' },
+        { key: '1-2', label: 'MSI' },
+        { key: '1-3', label: 'Gigabyte' },
+        { key: '1-4', label: 'ASRock' },
+      ],
+    },
+    {
+      key: '2',
+      label: 'Chipset',
+      children: [
+        { key: '2-1', label: 'B660' },
+        { key: '2-2', label: 'Z690' },
+        { key: '2-3', label: 'B760' },
+        { key: '2-4', label: 'X670' },
+        { key: '2-5', label: 'A520' },
+      ],
+    },
+    {
+      key: '3',
+      label: 'Âm thanh (Audio)',
+      children: [
+        { key: '3-1', label: 'Realtek ALC897' },
+        { key: '3-2', label: 'Realtek ALC1200' },
+        { key: '3-3', label: 'Realtek S1220A' },
+      ],
+    },
+    {
+      key: '4',
+      label: 'Đồ họa tích hợp',
+      children: [
+        { key: '4-1', label: 'Có' },
+        { key: '4-2', label: 'Không' },
+      ],
+    },
+    {
+      key: '5',
+      label: 'LAN',
+      children: [
+        { key: '5-1', label: '1Gb LAN' },
+        { key: '5-2', label: '2.5Gb LAN' },
+      ],
+    },
+    {
+      key: '6',
+      label: 'Hỗ trợ RAM',
+      children: [
+        { key: '6-1', label: 'DDR4' },
+        { key: '6-2', label: 'DDR5' },
+      ],
+    },
+    {
+      key: '7',
+      label: 'Giá tiền',
+      children: [
+        { key: '7-1', label: 'Dưới 2 triệu' },
+        { key: '7-2', label: '2 - 4 triệu' },
+        { key: '7-3', label: '4 - 6 triệu' },
+        { key: '7-4', label: 'Trên 6 triệu' },
+      ],
+    },
+  ];
+  const ssdItems = [
+    {
+      key: '1',
+      label: 'Thương hiệu',
+      children: [
+        { key: '1-1', label: 'Samsung' },
+        { key: '1-2', label: 'WD' },
+        { key: '1-3', label: 'Kingston' },
+        { key: '1-4', label: 'ADATA' },
+        { key: '1-5', label: 'Crucial' },
+      ],
+    },
+    {
+      key: '2',
+      label: 'Dung lượng',
+      children: [
+        { key: '2-1', label: '120GB' },
+        { key: '2-2', label: '240GB' },
+        { key: '2-3', label: '512GB' },
+        { key: '2-4', label: '1TB' },
+        { key: '2-5', label: '2TB' },
+      ],
+    },
+    {
+      key: '3',
+      label: 'Tốc độ đọc',
+      children: [
+        { key: '3-1', label: '500MB/s' },
+        { key: '3-2', label: '1000MB/s' },
+        { key: '3-3', label: '2000MB/s' },
+        { key: '3-4', label: '3500MB/s' },
+      ],
+    },
+    {
+      key: '4',
+      label: 'Tốc độ ghi',
+      children: [
+        { key: '4-1', label: '450MB/s' },
+        { key: '4-2', label: '1000MB/s' },
+        { key: '4-3', label: '2000MB/s' },
+        { key: '4-4', label: '3000MB/s' },
+      ],
+    },
+    {
+      key: '5',
+      label: 'Giá tiền',
+      children: [
+        { key: '5-1', label: 'Dưới 500 nghìn' },
+        { key: '5-2', label: '500 nghìn - 1 triệu' },
+        { key: '5-3', label: '1 - 2 triệu' },
+        { key: '5-4', label: '2 - 3 triệu' },
+        { key: '5-5', label: 'Trên 3 triệu' },
+      ],
+    },
+  ];
+
+
+
 
 const labelIconButton = [
   {
@@ -282,6 +587,31 @@ const labelIconButton = [
     label: 'Tai nghe',
     icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="13" fill="none"><path fill="currentcolor" d="M4 1a1 1 0 0 0-1 1v6.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4Zm-.3-1h12.6c.477 0 .935.184 1.273.513.337.328.527.773.527 1.237v7c0 .464-.19.91-.527 1.237a1.826 1.826 0 0 1-1.273.513H3.7c-.477 0-.935-.184-1.273-.513A1.726 1.726 0 0 1 1.9 8.75v-7c0-.464.19-.91.527-1.237A1.826 1.826 0 0 1 3.7 0Z"/><path stroke="currentcolor" stroke-linecap="round" d="M1 12h18"/></svg>',
   },
+  {
+    key: '5',
+    label: 'CPU',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="13" fill="none"><path fill="currentcolor" d="M4 1a1 1 0 0 0-1 1v6.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4Zm-.3-1h12.6c.477 0 .935.184 1.273.513.337.328.527.773.527 1.237v7c0 .464-.19.91-.527 1.237a1.826 1.826 0 0 1-1.273.513H3.7c-.477 0-.935-.184-1.273-.513A1.726 1.726 0 0 1 1.9 8.75v-7c0-.464.19-.91.527-1.237A1.826 1.826 0 0 1 3.7 0Z"/><path stroke="currentcolor" stroke-linecap="round" d="M1 12h18"/></svg>',
+  },
+  {
+    key: '6',
+    label: 'RAM',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="13" fill="none"><path fill="currentcolor" d="M4 1a1 1 0 0 0-1 1v6.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4Zm-.3-1h12.6c.477 0 .935.184 1.273.513.337.328.527.773.527 1.237v7c0 .464-.19.91-.527 1.237a1.826 1.826 0 0 1-1.273.513H3.7c-.477 0-.935-.184-1.273-.513A1.726 1.726 0 0 1 1.9 8.75v-7c0-.464.19-.91.527-1.237A1.826 1.826 0 0 1 3.7 0Z"/><path stroke="currentcolor" stroke-linecap="round" d="M1 12h18"/></svg>',
+  },
+  {
+    key: '7',
+    label: 'VGA',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="13" fill="none"><path fill="currentcolor" d="M4 1a1 1 0 0 0-1 1v6.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4Zm-.3-1h12.6c.477 0 .935.184 1.273.513.337.328.527.773.527 1.237v7c0 .464-.19.91-.527 1.237a1.826 1.826 0 0 1-1.273.513H3.7c-.477 0-.935-.184-1.273-.513A1.726 1.726 0 0 1 1.9 8.75v-7c0-.464.19-.91.527-1.237A1.826 1.826 0 0 1 3.7 0Z"/><path stroke="currentcolor" stroke-linecap="round" d="M1 12h18"/></svg>',
+  },
+  {
+    key: '8',
+    label: 'Mainboard',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="13" fill="none"><path fill="currentcolor" d="M4 1a1 1 0 0 0-1 1v6.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4Zm-.3-1h12.6c.477 0 .935.184 1.273.513.337.328.527.773.527 1.237v7c0 .464-.19.91-.527 1.237a1.826 1.826 0 0 1-1.273.513H3.7c-.477 0-.935-.184-1.273-.513A1.726 1.726 0 0 1 1.9 8.75v-7c0-.464.19-.91.527-1.237A1.826 1.826 0 0 1 3.7 0Z"/><path stroke="currentcolor" stroke-linecap="round" d="M1 12h18"/></svg>',
+  },
+  {
+    key: '9',
+    label: 'SSD',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="13" fill="none"><path fill="currentcolor" d="M4 1a1 1 0 0 0-1 1v6.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4Zm-.3-1h12.6c.477 0 .935.184 1.273.513.337.328.527.773.527 1.237v7c0 .464-.19.91-.527 1.237a1.826 1.826 0 0 1-1.273.513H3.7c-.477 0-.935-.184-1.273-.513A1.726 1.726 0 0 1 1.9 8.75v-7c0-.464.19-.91.527-1.237A1.826 1.826 0 0 1 3.7 0Z"/><path stroke="currentcolor" stroke-linecap="round" d="M1 12h18"/></svg>',
+  }
 ];
 
 const itemsMap = {
@@ -289,6 +619,11 @@ const itemsMap = {
   'Chuột + Lót chuột': mouseItems,
   'Tai nghe': headphoneItems,
   'Màn hình': monitorFilterItems,
+  CPU: cpuItems,
+  RAM: ramItems,
+  VGA: vgaItems,
+  Mainboard: mainboardItems,
+  SSD: ssdItems,
 };
 
 const DropDown = () => {
@@ -395,6 +730,158 @@ const DropDown = () => {
     navigate(`/collection/mousepad?${query}`);
   };
 
+  const handleHeadphoneFilter = (group, value) => {
+    const paramMap = {
+      "Thương hiệu": "brand",
+      "Kết nối": "connectivity_type",
+    };
+
+    if (group === "Giá tiền") {
+      let query = "";
+      if (value === "Dưới 1 triệu") {
+        query = "max=1000000";
+      } else if (value === "1 triệu - 2 triệu") {
+        query = "min=1000000&max=2000000";
+      } else if (value === "2 triệu - 3 triệu") {
+        query = "min=2000000&max=3000000";
+      } else if (value === "3 triệu - 4 triệu") {
+        query = "min=3000000&max=4000000";
+      } else if (value === "Trên 4 triệu") {
+        query = "min=4000000";
+      }
+      navigate(`/collection/headphone?${query}`);
+      return;
+    }
+
+    const key = paramMap[group];
+    if (!key) return;
+
+    const query = `${key}=${encodeURIComponent(value)}`;
+    navigate(`/collection/headphone?${query}`);
+  };
+
+  const handleRamFilter = (group, value) => {
+    const paramMap = {
+      'Thương hiệu': 'brand',
+      'Dung lượng': 'capacity',
+      'Loại RAM': 'type',
+      'Tốc độ': 'speed',
+    };
+
+    if (group === 'Giá tiền') {
+      let query = '';
+      if (value === 'Dưới 500 nghìn') query = 'max=500000';
+      else if (value === '500 nghìn - 1 triệu') query = 'min=500000&max=1000000';
+      else if (value === '1 - 2 triệu') query = 'min=1000000&max=2000000';
+      else if (value === '2 - 3 triệu') query = 'min=2000000&max=3000000';
+      else if (value === 'Trên 3 triệu') query = 'min=3000000';
+      navigate(`/collection/ram?${query}`);
+      return;
+    }
+
+    const key = paramMap[group];
+    if (!key) return;
+
+    const query = `${key}=${encodeURIComponent(value)}`;
+    navigate(`/collection/ram?${query}`);
+  };
+
+
+  const handleCpuFilter = (group, value) => {
+    const paramMap = {
+      'Thương hiệu': 'brand',
+      'Loại CPU': 'cpu_type',
+      'Socket': 'socket',
+      'Threads': 'threads',
+      'Multiplier': 'multiplier',
+    };
+    if (group === 'Giá tiền') {
+      let query = '';
+      if (value === 'Dưới 3 triệu') query = 'max=3000000';
+      else if (value === '3 - 5 triệu') query = 'min=3000000&max=5000000';
+      else if (value === '5 - 8 triệu') query = 'min=5000000&max=8000000';
+      else if (value === 'Trên 8 triệu') query = 'min=8000000';
+      navigate(`/collection/cpu?${query}`);
+      return;
+    }
+
+    const key = paramMap[group];
+    if (!key) return;
+
+    const query = `${key}=${encodeURIComponent(value)}`;
+    navigate(`/collection/cpu?${query}`);
+  };
+
+  const handleVgaFilter = (group, value) => {
+    const paramMap = {
+        'Thương hiệu': 'brand',
+        'Kiến trúc': 'architecture',
+        'CUDA Cores': 'cuda_cores',
+        'RT Cores': 'rt_cores',
+        'Tensor Cores': 'tensor_cores',
+    };
+
+    const key = paramMap[group];
+    if (!key) return;
+
+    const query = `${key}=${encodeURIComponent(value)}`;
+    navigate(`/collection/vga?${query}`);
+  };
+
+  const handleMainboardFilter = (group, value) => {
+    const paramMap = {
+      'Thương hiệu': 'brand',
+      'Chipset': 'chipset',
+      'Âm thanh (Audio)': 'audio',
+      'Đồ họa tích hợp': 'integrated_graphics',
+      'LAN': 'lan',
+      'Hỗ trợ RAM': 'memory',
+    };
+
+    if (group === 'Giá tiền') {
+      let query = '';
+      if (value === 'Dưới 2 triệu') query = 'max=2000000';
+      else if (value === '2 - 4 triệu') query = 'min=2000000&max=4000000';
+      else if (value === '4 - 6 triệu') query = 'min=4000000&max=6000000';
+      else if (value === 'Trên 6 triệu') query = 'min=6000000';
+      navigate(`/collection/mainboard?${query}`);
+      return;
+    }
+
+    const key = paramMap[group];
+    if (!key) return;
+
+    const query = `${key}=${encodeURIComponent(value)}`;
+    navigate(`/collection/mainboard?${query}`);
+  };
+
+  const handleSsdFilter = (group, value) => {
+    const paramMap = {
+      'Thương hiệu': 'brand',
+      'Dung lượng': 'capacity',
+      'Tốc độ đọc': 'read_speed',
+      'Tốc độ ghi': 'write_speed',
+    };
+
+    if (group === 'Giá tiền') {
+      let query = '';
+      if (value === 'Dưới 500 nghìn') query = 'max=500000';
+      else if (value === '500 nghìn - 1 triệu') query = 'min=500000&max=1000000';
+      else if (value === '1 - 2 triệu') query = 'min=1000000&max=2000000';
+      else if (value === '2 - 3 triệu') query = 'min=2000000&max=3000000';
+      else if (value === 'Trên 3 triệu') query = 'min=3000000';
+      navigate(`/collection/ssd?${query}`);
+      return;
+    }
+
+    const key = paramMap[group];
+    if (!key) return;
+
+    const query = `${key}=${encodeURIComponent(value)}`;
+    navigate(`/collection/ssd?${query}`);
+  };
+
+
 
   return (
     <div className="section-slider">
@@ -453,6 +940,18 @@ const DropDown = () => {
                               } else if (lot.includes(topLevelItem.label)) {
                                 handleMousepadFilter(topLevelItem.label, secondLevelItem.label);
                               }
+                            } else if (hoveredButton === "Tai nghe") {
+                              handleHeadphoneFilter(topLevelItem.label, secondLevelItem.label);
+                            } else if (hoveredButton === "CPU") {
+                              handleCpuFilter(topLevelItem.label, secondLevelItem.label);
+                            } else if (hoveredButton === "RAM") {
+                              handleRamFilter(topLevelItem.label, secondLevelItem.label);
+                            } else if (hoveredButton === "VGA") {
+                              handleVgaFilter(topLevelItem.label, secondLevelItem.label);
+                            } else if (hoveredButton === "Mainboard") {
+                              handleMainboardFilter(topLevelItem.label, secondLevelItem.label);
+                            } else if (hoveredButton === "SSD") {
+                              handleSsdFilter(topLevelItem.label, secondLevelItem.label);
                             }
                           }}
                       >
