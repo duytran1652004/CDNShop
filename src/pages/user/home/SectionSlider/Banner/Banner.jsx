@@ -25,7 +25,7 @@ const Banner = () => {
                <div className="list">
                     <div className="item">
                         <a href="">
-                            <img src="https://file.hstatic.net/200000722513/file/thang_04_layout_web_-05.png" alt="" />
+                            <img src="https://file.hstatic.net/200000722513/file/thang_04_layout_web_-08.png" alt="" />
                         </a>
                     </div>
                     <div className="item">

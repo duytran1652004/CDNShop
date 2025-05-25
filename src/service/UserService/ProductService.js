@@ -44,9 +44,6 @@ class ProductService {
         const response = await pythonApi.get("/product/get_mouse_pab_by_filter", { params });
         return response.data;
     }
-
-
-
 }
 
 export default new ProductService();

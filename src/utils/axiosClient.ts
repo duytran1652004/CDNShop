@@ -30,7 +30,6 @@ const createAxiosClient = (
   return client;
 };
 
-// Export các instance
 export const pythonApi = createAxiosClient("python");
 export const javaApi = createAxiosClient("java");
 export const javaFormApi = createAxiosClient("java", true);

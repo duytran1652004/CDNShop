@@ -32,7 +32,7 @@ const SectionContent = ({ title, products = [], isDetail = true, category }) => 
         slidesPerView={slidesPerView}
         navigation={isDetail}
       >
-        {products.map((product, index) => (
+        {products?.map((product, index) => (
             <SwiperSlide
                 key={product.id || index}
                 className={isDetail ? '' : 'custom-slide'}
